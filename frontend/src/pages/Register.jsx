@@ -46,7 +46,7 @@ const Register = () => {
                 className="block w-full rounded-md border-gray-300 px-3 py-3 mb-2"
                 required
               />
-              <input
+              <input 
                 type="email"
                 placeholder="Email address"
                 value={email}
