@@ -40,14 +40,6 @@ const Register = () => {
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="mb-4">
               <input
-                type="text"
-                placeholder="Full Name"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                className="block w-full rounded-md border-gray-300 px-3 py-3 mb-2"
-                required
-              />
-              <input
                 type="email"
                 placeholder="Email address"
                 value={email}
@@ -58,7 +50,6 @@ const Register = () => {
               <input
                 type="password"
                 placeholder="Password"
-                value={password}
                 onChange={e => setPassword(e.target.value)}
                 className="block w-full rounded-md border-gray-300 px-3 py-3 mb-2"
                 required
