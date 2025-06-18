@@ -1,34 +1,33 @@
-
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAuth } from "../contexts/AuthContext";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [role, setRole] = useState('student');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { register } = useAuth();
-  const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [role, setRole] = useState("student");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const { register } = useAuth();
+    const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!name || !email || !password) {
-      toast.error('Please fill all fields');
-      return;
-    }
-    setIsLoading(true);
-    const success = await register(name, email, password, role);
-    setIsLoading(false);
-    if (success) {
-      toast.success('Account created! You are now logged in.');
-      navigate(`/${role}`);
-    } else {
-      toast.error('Registration failed');
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!name || !email || !password) {
+            toast.error("Please fill all fields");
+            return;
+        }
+        setIsLoading(true);
+        const success = await register(name, email, password, role);
+        setIsLoading(false);
+        if (success) {
+            toast.success("Account created! You are now logged in.");
+            navigate(`/${role}`);
+        } else {
+            toast.error("Registration failed");
+        }
+    };
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -40,6 +39,14 @@ const Register = () => {
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="mb-4">
               <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="block w-full rounded-md border-gray-300 px-3 py-3 mb-2"
+                required
+              />
+              <input
                 type="email"
                 placeholder="Email address"
                 value={email}
@@ -50,6 +57,7 @@ const Register = () => {
               <input
                 type="password"
                 placeholder="Password"
+                value={password}
                 onChange={e => setPassword(e.target.value)}
                 className="block w-full rounded-md border-gray-300 px-3 py-3 mb-2"
                 required
