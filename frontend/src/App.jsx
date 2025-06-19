@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import TeacherDashboard from './pages/teacher/TeacherDashboard.jsx';
 import CreateTest from './pages/teacher/CreateTest';
 import EditTest from './pages/teacher/EditTest';
@@ -11,6 +10,7 @@ import TakeTest from './pages/student/TakeTest';
 import TestResults from './pages/student/TestResults';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+import Register from './pages/Register.jsx';
 
 function App() {
   return (
@@ -21,7 +21,6 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
             {/* Teacher Routes */}
             <Route 
               path="/teacher" 
