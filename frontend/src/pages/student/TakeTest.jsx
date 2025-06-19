@@ -1,476 +1,253 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Flag, Clock, CheckCircle, AlertTriangle } from 'lucide-react';
+import axios from '../../config/axios';
 import toast from 'react-hot-toast';
-import Navbar from '../../components/Navbar';
-import { mockTests, getQuestionsForTest } from '../../data/mockData';
-import { QUESTION_TYPES } from '../../types';
 
 const TakeTest = () => {
   const { testId } = useParams();
   const navigate = useNavigate();
-  
   const [test, setTest] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [flaggedQuestions, setFlaggedQuestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const questionRefs = useRef({});
 
   useEffect(() => {
     const fetchTestData = async () => {
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 800));
-        
-        // Find test in mock data
-        const testData = mockTests.find(t => t.id === testId);
-        
-        if (!testData) {
-          toast.error('Test not found');
+        const testRes = await axios.get(`/api/student/tests/${testId}`);
+        const questionsRes = await axios.get(`/api/student/questions/${testId}`);
+
+        const testData = testRes.data.test;
+        const testQuestions = questionsRes.data.questions;
+
+        if (!testData || !testQuestions || testQuestions.length === 0) {
+          toast.error('Test or questions not found');
           navigate('/student');
           return;
         }
-        
-        // Check if test is currently available
-        const now = new Date();
-        const startTime = new Date(testData.startTime);
-        const endTime = new Date(testData.endTime);
-        
-        if (now < startTime) {
-          toast.error('This test is not yet available');
-          navigate('/student');
-          return;
-        }
-        
-        if (now > endTime) {
-          toast.error('This test has ended');
-          navigate('/student');
-          return;
-        }
-        
-        // Get questions for this test
-        const testQuestions = getQuestionsForTest(testId);
-        
-        if (testQuestions.length === 0) {
-          toast.error('No questions found for this test');
-          navigate('/student');
-          return;
-        }
-        
+
         setTest(testData);
         setQuestions(testQuestions);
-        
-        // Initialize empty answers object
-        const initialAnswers = {};
-        testQuestions.forEach(q => {
-          initialAnswers[q.id] = '';
-        });
-        setAnswers(initialAnswers);
-        
-        // Set timer
-        const timeRemaining = Math.min(
-          testData.duration * 60, // Test duration in seconds
-          (endTime - now) / 1000 // Time until test ends in seconds
-        );
-        setTimeLeft(Math.floor(timeRemaining));
-        
+        setTimeLeft(testData.duration * 60);
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching test:', error);
-        toast.error('Failed to load test');
+        toast.error('Error loading test');
+        console.error('Error loading test:', error);
         navigate('/student');
-      } finally {
-        setIsLoading(false);
       }
     };
-    
+
     fetchTestData();
   }, [testId, navigate]);
 
-  // Timer countdown
   useEffect(() => {
-    if (timeLeft <= 0) {
-      handleTimeUp();
-      return;
-    }
-    
-    const timerId = setInterval(() => {
-      setTimeLeft(prev => prev - 1);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          toast.error('Time is up! Submitting test.');
+          handleSubmitTest();
+        }
+        return prev - 1;
+      });
     }, 1000);
-    
-    return () => clearInterval(timerId);
-  }, [timeLeft]);
 
-  const handleTimeUp = useCallback(() => {
-    toast.error('Time is up! Submitting your test...');
-    handleSubmitTest();
-  }, []);
+    return () => clearInterval(timer);
+  }, [test]);
 
-  const formatTime = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    
-    return [
-      hours > 0 ? String(hours).padStart(2, '0') : null,
-      String(minutes).padStart(2, '0'),
-      String(secs).padStart(2, '0')
-    ].filter(Boolean).join(':');
+  const handleChange = (qid, value) => {
+    setAnswers((prev) => ({ ...prev, [qid]: value }));
   };
 
-  const handleAnswerChange = (questionId, answer) => {
-    setAnswers(prev => ({
-      ...prev,
-      [questionId]: answer
-    }));
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      window.scrollTo(0, 0);
+  const handleSubmitTest = async () => {
+    try {
+      await axios.post(`/api/student/submit/${testId}`, { answers });
+      toast.success('Test submitted successfully!');
+      navigate('/student');
+    } catch (error) {
+      toast.error('Failed to submit test');
+      console.error('Submit error:', error);
     }
   };
 
-  const handlePrevQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-      window.scrollTo(0, 0);
-    }
+  const scrollToQuestion = (qid) => {
+    questionRefs.current[qid]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
-  const handleGoToQuestion = (index) => {
-    setCurrentQuestionIndex(index);
-    window.scrollTo(0, 0);
-  };
-
-  const toggleFlagQuestion = (index) => {
-    setFlaggedQuestions(prev => {
-      if (prev.includes(index)) {
-        return prev.filter(i => i !== index);
-      } else {
-        return [...prev, index];
-      }
+  const handleQuestionDoubleClick = (qid) => {
+    setAnswers((prev) => {
+      const newAnswers = { ...prev };
+      delete newAnswers[qid];
+      return newAnswers;
     });
   };
 
-  const isQuestionAnswered = (questionId) => {
-    return answers[questionId] !== '';
-  };
-
-  const handleSubmitTest = () => {
-    // Calculate score
-    let score = 0;
-    let totalPoints = 0;
-    
-    questions.forEach(question => {
-      totalPoints += question.points;
-      const userAnswer = answers[question.id];
-      
-      if (!userAnswer) return; // Skip unanswered questions
-      
-      if (question.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
-        if (userAnswer === question.correctAnswer) {
-          score += question.points;
-        }
-      } else if (question.type === QUESTION_TYPES.NUMERICAL) {
-        const numericAnswer = parseFloat(userAnswer);
-        const correctAnswer = parseFloat(question.correctAnswer);
-        const tolerance = question.tolerance || 0;
-        
-        if (!isNaN(numericAnswer) && 
-            !isNaN(correctAnswer) && 
-            Math.abs(numericAnswer - correctAnswer) <= tolerance) {
-          score += question.points;
-        }
-      }
-    });
-    
-    // In a real app, you would save this data to your backend
-    console.log('Test completed:', {
-      testId,
-      answers,
-      score,
-      totalPoints
-    });
-    
-    // Navigate to results page
-    navigate(`/student/results/${testId}`, { 
-      state: { 
-        score, 
-        totalPoints,
-        answers
-      }
-    });
-  };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar title="Loading Test..." />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
-            <p className="mt-2 text-gray-600">Loading test...</p>
-          </div>
-        </div>
+  if (loading) return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mb-4"></div>
+        <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Loading...</div>
       </div>
-    );
-  }
-
-  const currentQuestion = questions[currentQuestionIndex];
+    </div>
+  );
 
   return (
-    //changed
-    <div className="w-screen h-screen bg-gray-50">
-      <Navbar title={test?.title || 'Take Test'} />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6">
-          {/* Main content - Question */}
-          <div className="lg:w-3/4 bg-white shadow rounded-lg p-6 fade-in">
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <h1 className="text-xl font-bold text-gray-900">{test?.title}</h1>
-              
-              <div className="mt-2 sm:mt-0 flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-full">
-                <Clock size={18} className="mr-2" />
-                <span className="font-medium">{formatTime(timeLeft)}</span>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-4 gap-6">
+        {/* Test Content */}
+        <div className="col-span-3">
+          <div className="bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl p-8 mb-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">{test.title}</h1>
+                <p className="text-gray-600 text-lg">{test.description}</p>
               </div>
-            </div>
-            
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900">Question {currentQuestionIndex + 1} of {questions.length}</h2>
-                <button
-                  onClick={() => toggleFlagQuestion(currentQuestionIndex)}
-                  className={`inline-flex items-center px-3 py-1 rounded-md text-sm font-medium ${
-                    flaggedQuestions.includes(currentQuestionIndex)
-                      ? 'bg-amber-100 text-amber-700'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  <Flag size={16} className="mr-1" />
-                  {flaggedQuestions.includes(currentQuestionIndex) ? 'Flagged' : 'Flag for Review'}
-                </button>
-              </div>
-              
-              <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                <p className="text-gray-800">{currentQuestion.text}</p>
-                
-                {currentQuestion.imageUrl && (
-                  <div className="mt-3">
-                    <img 
-                      src={currentQuestion.imageUrl} 
-                      alt="Question" 
-                      className="max-h-64 object-contain bg-white border rounded-md mx-auto"
-                    />
-                  </div>
-                )}
-              </div>
-              
-              {currentQuestion.type === QUESTION_TYPES.MULTIPLE_CHOICE && (
-                <div className="space-y-3">
-                  {currentQuestion.options.map((option) => (
-                    <label 
-                      key={option.id} 
-                      className={`block p-4 border rounded-lg cursor-pointer hover:bg-blue-50 ${
-                        answers[currentQuestion.id] === option.id
-                          ? 'bg-blue-50 border-blue-300'
-                          : 'bg-white border-gray-200'
-                      }`}
-                    >
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          name={`question_${currentQuestion.id}`}
-                          value={option.id}
-                          checked={answers[currentQuestion.id] === option.id}
-                          onChange={() => handleAnswerChange(currentQuestion.id, option.id)}
-                          className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
-                        />
-                        <span className="ml-3 text-gray-700">{option.id.toUpperCase()}. {option.text}</span>
-                      </div>
-                    </label>
-                  ))}
+              <div className="text-right">
+                <div className={`text-3xl font-bold transition-colors duration-300 ${
+                  timeLeft > 300 ? 'text-green-500' : timeLeft > 120 ? 'text-yellow-500' : 'text-red-500'
+                }`}>
+                  {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
                 </div>
-              )}
-              
-              {currentQuestion.type === QUESTION_TYPES.NUMERICAL && (
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Answer
-                  </label>
-                  <input
-                    type="text"
-                    value={answers[currentQuestion.id]}
-                    onChange={(e) => handleAnswerChange(currentQuestion.id, e.target.value)}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Enter your numerical answer"
-                  />
-                </div>
-              )}
-            </div>
-            
-            <div className="flex justify-between mt-8 pt-4 border-t border-gray-200">
-              <button
-                onClick={handlePrevQuestion}
-                disabled={currentQuestionIndex === 0}
-                className={`px-4 py-2 rounded-md text-sm font-medium ${
-                  currentQuestionIndex === 0
-                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Previous
-              </button>
-              
-              {currentQuestionIndex < questions.length - 1 ? (
-                <button
-                  onClick={handleNextQuestion}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
-                >
-                  Next
-                </button>
-              ) : (
-                <button
-                  onClick={() => setShowConfirmSubmit(true)}
-                  className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700"
-                >
-                  Submit Test
-                </button>
-              )}
+                <p className="text-sm font-medium text-gray-500">Time Left</p>
+              </div>
             </div>
           </div>
-          
-          {/* Sidebar - Question navigation */}
-          <div className="lg:w-1/4 bg-white shadow rounded-lg p-6 self-start">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Question Navigator</h2>
-            
-            <div className="grid grid-cols-5 gap-2 mb-4">
-              {questions.map((question, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleGoToQuestion(index)}
-                  className={`question-number h-10 w-10 flex items-center justify-center rounded-md text-sm font-medium border 
-                    ${currentQuestionIndex === index ? 'active' : ''}
-                    ${isQuestionAnswered(question.id) ? 'answered' : ''}
-                    ${flaggedQuestions.includes(index) ? 'flagged' : ''}
-                  `}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-            
-            <div className="mt-6 space-y-3">
-              <div className="flex items-center">
-                <div className="h-4 w-4 rounded-sm bg-blue-600"></div>
-                <span className="ml-2 text-sm text-gray-600">Current Question</span>
+
+          <div className="space-y-6">
+            {questions.map((q, index) => (
+              <div
+                key={q.id}
+                ref={(el) => (questionRefs.current[q.id] = el)}
+                className="bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl"
+                onDoubleClick={() => handleQuestionDoubleClick(q.id)}
+              >
+                <div className="p-8">
+                  <div className="flex items-start space-x-4 mb-6">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">{index + 1}</span>
+                    </div>
+                    <p className="font-semibold text-xl text-gray-800 leading-relaxed flex-1">Q{index + 1}: {q.text}</p>
+                  </div>
+
+                  {q.type === 'multiple-choice' && (
+                    <div className="space-y-3 ml-14">
+                      {q.options.map((opt, idx) => (
+                        <label 
+                          key={idx} 
+                          className={`flex items-center space-x-4 p-4 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                            answers[q.id] === opt.id 
+                              ? 'bg-blue-50 border-blue-300 shadow-md' 
+                              : 'bg-gray-50 border-gray-200 hover:bg-blue-25 hover:border-blue-200'
+                          }`}
+                        >
+                          <div className="relative">
+                            <input
+                              type="radio"
+                              name={q.id}
+                              value={opt.id}
+                              checked={answers[q.id] === opt.id}
+                              onChange={() => handleChange(q.id, opt.id)}
+                              className="sr-only"
+                            />
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                              answers[q.id] === opt.id 
+                                ? 'border-blue-500 bg-blue-500' 
+                                : 'border-gray-300'
+                            }`}>
+                              {answers[q.id] === opt.id && (
+                                <div className="w-2 h-2 bg-white rounded-full"></div>
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-gray-700 font-medium flex-1">{opt.text}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+
+                  {q.type === 'numerical' && (
+                    <div className="ml-14">
+                      <input
+                        type="number"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-all duration-300 text-lg"
+                        placeholder="Enter your answer..."
+                        value={answers[q.id] || ''}
+                        onChange={(e) => handleChange(q.id, e.target.value)}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center">
-                <div className="h-4 w-4 rounded-sm bg-green-600"></div>
-                <span className="ml-2 text-sm text-gray-600">Answered</span>
-              </div>
-              <div className="flex items-center">
-                <div className="h-4 w-4 rounded-sm border-2 border-amber-500"></div>
-                <span className="ml-2 text-sm text-gray-600">Flagged for Review</span>
-              </div>
-            </div>
-            
-            <div className="mt-8 pt-4 border-t border-gray-200">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-700">Progress</span>
-                <span className="text-sm text-gray-600">
-                  {Object.values(answers).filter(a => a !== '').length} / {questions.length}
-                </span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2.5">
-                <div 
-                  className="bg-blue-600 h-2.5 rounded-full" 
-                  style={{
-                    width: `${(Object.values(answers).filter(a => a !== '').length / questions.length) * 100}%`
-                  }}
-                ></div>
-              </div>
-            </div>
-            
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
             <button
-              onClick={() => setShowConfirmSubmit(true)}
-              className="w-full mt-6 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+              onClick={handleSubmitTest}
             >
-              <CheckCircle size={16} className="mr-2" />
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
               Submit Test
             </button>
           </div>
         </div>
-      </div>
-      
-      {/* Submit Confirmation Modal */}
-      {showConfirmSubmit && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+
+        {/* Question Navigator */}
+        <div className="col-span-1 bg-white/80 backdrop-blur-sm border border-white/50 p-6 rounded-2xl shadow-xl sticky top-6 h-fit">
+          <h2 className="font-bold text-xl mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Questions</h2>
+          
+          {/* Progress Bar */}
+          <div className="mb-6">
+            <div className="flex justify-between text-sm font-medium text-gray-600 mb-2">
+              <span>Progress</span>
+              <span>{Object.keys(answers).length}/{questions.length}</span>
             </div>
-            
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <AlertTriangle className="h-6 w-6 text-yellow-600" />
-                  </div>
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">Submit Test</h3>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Are you sure you want to submit your test? You will not be able to make any changes after submission.
-                      </p>
-                      
-                      <div className="mt-4 bg-gray-50 p-3 rounded-md">
-                        <p className="text-sm text-gray-700">
-                          <span className="font-medium">Questions answered:</span> {Object.values(answers).filter(a => a !== '').length} of {questions.length}
-                        </p>
-                        {flaggedQuestions.length > 0 && (
-                          <p className="text-sm text-amber-600 mt-1">
-                            <span className="font-medium">Warning:</span> You have {flaggedQuestions.length} flagged question(s) for review.
-                          </p>
-                        )}
-                        {Object.values(answers).filter(a => a === '').length > 0 && (
-                          <p className="text-sm text-red-600 mt-1">
-                            <span className="font-medium">Warning:</span> You have {Object.values(answers).filter(a => a === '').length} unanswered question(s).
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                  type="button"
-                  onClick={handleSubmitTest}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  Submit Test
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmSubmit(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  Continue Test
-                </button>
-              </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div 
+                className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500"
+                style={{ width: `${questions.length > 0 ? (Object.keys(answers).length / questions.length) * 100 : 0}%` }}
+              ></div>
             </div>
           </div>
+
+          <div className="grid grid-cols-5 gap-3">
+            {questions.map((q, index) => (
+              <button
+                key={q.id}
+                onClick={() => scrollToQuestion(q.id)}
+                onDoubleClick={() => handleQuestionDoubleClick(q.id)}
+                className={`relative w-12 h-12 rounded-xl font-bold text-sm transition-all duration-300 transform hover:scale-110 shadow-lg
+                  ${answers[q.id] 
+                    ? 'bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-emerald-200' 
+                    : 'bg-white border-2 border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50'
+                  }`}
+                title="Double-click to clear answer"
+              >
+                {index + 1}
+                {answers[q.id] && (
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full flex items-center justify-center">
+                    <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+          
+          <div className="mt-4 text-center text-xs text-gray-500">
+            Double-click question to clear answer
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
 export default TakeTest;
+
+

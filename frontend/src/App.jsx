@@ -17,6 +17,7 @@ function App() {
     <AuthProvider>
       <Router>
           {/* //changed */}
+
         <div className="h-screen w-screen bg-gray-50">
           <Routes>
             <Route path="/login" element={<Login />} />
@@ -74,7 +75,7 @@ function App() {
             />
             
             {/* Default Routes */}
-            <Route path="/" element={<Navigate to="/login\" replace />} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
           </Routes>
           <Toaster position="top-right" />
         </div>

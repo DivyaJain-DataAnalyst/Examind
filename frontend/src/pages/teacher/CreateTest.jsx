@@ -1,9 +1,552 @@
+
+// import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { Plus, Trash2, Image, ChevronLeft, Save, Clock, BookOpen, Calendar, Settings } from 'lucide-react';
+// import toast from 'react-hot-toast';
+// import Navbar from '../../components/Navbar';
+// import { QUESTION_TYPES } from '../../types';
+// import axios from '../../config/axios';
+
+// const CreateTest = () => {
+//   const navigate = useNavigate();
+//   const [testDetails, setTestDetails] = useState({
+//     title: '',
+//     description: '',
+//     subject: '',
+//     duration: 30,
+//     startTime: '',
+//     endTime: ''
+//   });
+  
+//   const [questions, setQuestions] = useState([
+//     {
+//       id: 'new-q-1',
+//       text: '',
+//       type: QUESTION_TYPES.MULTIPLE_CHOICE,
+//       options: [
+//         { id: 'a', text: '' },
+//         { id: 'b', text: '' },
+//         { id: 'c', text: '' },
+//         { id: 'd', text: '' }
+//       ],
+//       correctAnswer: '',
+//       points: 5,
+//       imageUrl: null
+//     }
+//   ]);
+
+//   const handleTestDetailsChange = (e) => {
+//     const { name, value } = e.target;
+//     setTestDetails(prev => ({
+//       ...prev,
+//       [name]: value
+//     }));
+//   };
+
+//   const handleQuestionChange = (index, field, value) => {
+//     const updatedQuestions = [...questions];
+//     updatedQuestions[index][field] = value;
+//     setQuestions(updatedQuestions);
+//   };
+
+//   const handleOptionChange = (questionIndex, optionId, value) => {
+//     const updatedQuestions = [...questions];
+//     const optionIndex = updatedQuestions[questionIndex].options.findIndex(opt => opt.id === optionId);
+    
+//     if (optionIndex !== -1) {
+//       updatedQuestions[questionIndex].options[optionIndex].text = value;
+//       setQuestions(updatedQuestions);
+//     }
+//   };
+
+//   const handleCorrectAnswerChange = (questionIndex, value) => {
+//     const updatedQuestions = [...questions];
+//     updatedQuestions[questionIndex].correctAnswer = value;
+//     setQuestions(updatedQuestions);
+//   };
+
+//   const addQuestion = () => {
+//     const newQuestion = {
+//       id: `new-q-${questions.length + 1}`,
+//       text: '',
+//       type: QUESTION_TYPES.MULTIPLE_CHOICE,
+//       options: [
+//         { id: 'a', text: '' },
+//         { id: 'b', text: '' },
+//         { id: 'c', text: '' },
+//         { id: 'd', text: '' }
+//       ],
+//       correctAnswer: '',
+//       points: 5,
+//       imageUrl: null
+//     };
+    
+//     setQuestions([...questions, newQuestion]);
+//   };
+
+//   const removeQuestion = (index) => {
+//     if (questions.length > 1) {
+//       const updatedQuestions = questions.filter((_, i) => i !== index);
+//       setQuestions(updatedQuestions);
+//     } else {
+//       toast.error('Test must have at least one question');
+//     }
+//   };
+
+//   const handleImageUpload = (questionIndex, e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       const fakeImageUrl = URL.createObjectURL(file);
+      
+//       const updatedQuestions = [...questions];
+//       updatedQuestions[questionIndex].imageUrl = fakeImageUrl;
+//       setQuestions(updatedQuestions);
+      
+//       toast.success('Image uploaded successfully');
+//     }
+//   };
+
+//   const handleTypeChange = (questionIndex, newType) => {
+//     const updatedQuestions = [...questions];
+//     updatedQuestions[questionIndex].type = newType;
+    
+//     updatedQuestions[questionIndex].correctAnswer = '';
+    
+//     setQuestions(updatedQuestions);
+//   };
+
+//   const validateForm = () => {
+//     if (!testDetails.title) return 'Test title is required';
+//     if (!testDetails.subject) return 'Subject is required';
+//     if (!testDetails.duration) return 'Duration is required';
+//     if (!testDetails.startTime) return 'Start time is required';
+//     if (!testDetails.endTime) return 'End time is required';
+    
+//     for (let i = 0; i < questions.length; i++) {
+//       const q = questions[i];
+//       if (!q.text) return `Question ${i + 1} text is required`;
+//       if (q.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
+//         if (!q.options.every(opt => opt.text)) {
+//           return `All options for Question ${i + 1} are required`;
+//         }
+//         if (!q.correctAnswer) {
+//           return `Correct answer for Question ${i + 1} is required`;
+//         }
+//       } else if (q.type === QUESTION_TYPES.NUMERICAL) {
+//         if (!q.correctAnswer) {
+//           return `Correct answer for Question ${i + 1} is required`;
+//         }
+//       }
+//     }
+    
+//     return null;
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+    
+//     const error = validateForm();
+//     if (error) {
+//       toast.error(error);
+//       return;
+//     }
+    
+//     try {
+//       const payload = {
+//         ...testDetails,
+//         questions
+//       };
+//       const res = await axios.post('/api/teacher/tests', payload);
+//       toast.success('Test created successfully!');
+//       navigate('/teacher');
+//     } catch (err) {
+//       console.error(err);
+//       const message = err.response?.data?.message || 'Failed to create test';
+//       toast.error(message);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+//       <Navbar title="Create Test" />
+      
+//       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+//         {/* Header Section */}
+//         <div className="mb-8">
+//          <button 
+//             onClick={() => navigate('/teacher')}
+//             className="group relative inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-600 hover:border-transparent shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 mb-6"
+//           >
+//             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-600/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+//             <ChevronLeft size={18} className="mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
+//             <span className="relative z-10">Back to Dashboard</span>
+//             <div className="ml-2 w-2 h-2 bg-indigo-400 rounded-full opacity-60 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
+//           </button>
+//           <div className="flex items-center space-x-3">
+//             <div className="p-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+//               <BookOpen className="h-8 w-8 text-white" />
+//             </div>
+//             <div>
+//               <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+//                 Create New Test
+//               </h1>
+//               <p className="text-gray-600 mt-1">Design an engaging assessment for your students</p>
+//             </div>
+//           </div>
+//         </div>
+        
+//         <form onSubmit={handleSubmit} className="space-y-8">
+//           {/* Test Details Card */}
+//           <div className="bg-white/70 backdrop-blur-sm shadow-xl rounded-2xl border border-white/20 overflow-hidden">
+//             <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+//               <div className="flex items-center space-x-2">
+//                 <Settings className="h-5 w-5 text-white" />
+//                 <h2 className="text-lg font-semibold text-white">Test Configuration</h2>
+//               </div>
+//             </div>
+            
+//             <div className="p-8">
+//               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+//                 <div className="space-y-6">
+//                   <div className="group">
+//                     <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
+//                       Test Title*
+//                     </label>
+//                     <input
+//                       type="text"
+//                       id="title"
+//                       name="title"
+//                       value={testDetails.title}
+//                       onChange={handleTestDetailsChange}
+//                       className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                       placeholder="e.g., Midterm Physics Exam"
+//                       required
+//                     />
+//                   </div>
+                  
+//                   <div className="group">
+//                     <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
+//                       Subject*
+//                     </label>
+//                     <input
+//                       type="text"
+//                       id="subject"
+//                       name="subject"
+//                       value={testDetails.subject}
+//                       onChange={handleTestDetailsChange}
+//                       className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                       placeholder="e.g., Physics"
+//                       required
+//                     />
+//                   </div>
+                  
+//                   <div className="group">
+//                     <label htmlFor="duration" className="block text-sm font-semibold text-gray-700 mb-2">
+//                       <Clock className="inline h-4 w-4 mr-1" />
+//                       Duration (minutes)*
+//                     </label>
+//                     <input
+//                       type="number"
+//                       id="duration"
+//                       name="duration"
+//                       value={testDetails.duration}
+//                       onChange={handleTestDetailsChange}
+//                       min={5}
+//                       className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                       required
+//                     />
+//                   </div>
+//                 </div>
+                
+//                 <div className="space-y-6">
+//                   <div className="group">
+//                     <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">
+//                       Description
+//                     </label>
+//                     <textarea
+//                       id="description"
+//                       name="description"
+//                       value={testDetails.description}
+//                       onChange={handleTestDetailsChange}
+//                       rows={4}
+//                       className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50 resize-none"
+//                       placeholder="Provide a brief description of the test"
+//                     />
+//                   </div>
+                  
+//                   <div className="grid grid-cols-1 gap-6">
+//                     <div className="group">
+//                       <label htmlFor="startTime" className="block text-sm font-semibold text-gray-700 mb-2">
+//                         <Calendar className="inline h-4 w-4 mr-1" />
+//                         Start Date & Time*
+//                       </label>
+//                       <input
+//                         type="datetime-local"
+//                         id="startTime"
+//                         name="startTime"
+//                         value={testDetails.startTime}
+//                         onChange={handleTestDetailsChange}
+//                         className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                         required
+//                       />
+//                     </div>
+                    
+//                     <div className="group">
+//                       <label htmlFor="endTime" className="block text-sm font-semibold text-gray-700 mb-2">
+//                         <Calendar className="inline h-4 w-4 mr-1" />
+//                         End Date & Time*
+//                       </label>
+//                       <input
+//                         type="datetime-local"
+//                         id="endTime"
+//                         name="endTime"
+//                         value={testDetails.endTime}
+//                         onChange={handleTestDetailsChange}
+//                         className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                         required
+//                       />
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+          
+//           {/* Questions Section */}
+//           <div className="space-y-6">
+//             <div className="flex items-center justify-between">
+//               <div className="flex items-center space-x-3">
+//                 <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg">
+//                   <BookOpen className="h-5 w-5 text-white" />
+//                 </div>
+//                 <h2 className="text-2xl font-bold text-gray-900">Questions ({questions.length})</h2>
+//               </div>
+//               <button
+//                 type="button"
+//                 onClick={addQuestion}
+//                 className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-200"
+//               >
+//                 <Plus size={18} className="mr-2" />
+//                 Add Question
+//               </button>
+//             </div>
+            
+//             {questions.map((question, index) => (
+//               <div key={question.id} className="bg-white/70 backdrop-blur-sm shadow-xl rounded-2xl border border-white/20 overflow-hidden transform hover:scale-[1.02] transition-all duration-300">
+//                 <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4">
+//                   <div className="flex items-center justify-between">
+//                     <div className="flex items-center space-x-3">
+//                       <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+//                         <span className="text-white font-bold text-sm">{index + 1}</span>
+//                       </div>
+//                       <h3 className="text-lg font-semibold text-white">Question {index + 1}</h3>
+//                     </div>
+//                     <button
+//                       type="button"
+//                       onClick={() => removeQuestion(index)}
+//                       className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-300 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-colors duration-200"
+//                     >
+//                       <Trash2 size={16} className="mr-1" />
+//                       Remove
+//                     </button>
+//                   </div>
+//                 </div>
+                
+//                 <div className="p-8 space-y-6">
+//                   <div className="group">
+//                     <label className="block text-sm font-semibold text-gray-700 mb-2">
+//                       Question Text*
+//                     </label>
+//                     <textarea
+//                       value={question.text}
+//                       onChange={(e) => handleQuestionChange(index, 'text', e.target.value)}
+//                       rows={3}
+//                       className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50 resize-none"
+//                       placeholder="Enter your question here"
+//                       required
+//                     />
+//                   </div>
+                  
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                     <div>
+//                       <label className="block text-sm font-semibold text-gray-700 mb-3">
+//                         Question Type*
+//                       </label>
+//                       <div className="flex space-x-4">
+//                         <label className="flex items-center p-3 bg-white/60 rounded-xl border-2 border-gray-200 cursor-pointer hover:bg-white/80 transition-colors duration-200">
+//                           <input
+//                             type="radio"
+//                             checked={question.type === QUESTION_TYPES.MULTIPLE_CHOICE}
+//                             onChange={() => handleTypeChange(index, QUESTION_TYPES.MULTIPLE_CHOICE)}
+//                             className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+//                           />
+//                           <span className="ml-3 text-sm font-medium text-gray-700">Multiple Choice</span>
+//                         </label>
+//                         <label className="flex items-center p-3 bg-white/60 rounded-xl border-2 border-gray-200 cursor-pointer hover:bg-white/80 transition-colors duration-200">
+//                           <input
+//                             type="radio"
+//                             checked={question.type === QUESTION_TYPES.NUMERICAL}
+//                             onChange={() => handleTypeChange(index, QUESTION_TYPES.NUMERICAL)}
+//                             className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+//                           />
+//                           <span className="ml-3 text-sm font-medium text-gray-700">Numerical</span>
+//                         </label>
+//                       </div>
+//                     </div>
+                    
+//                     <div>
+//                       <label className="block text-sm font-semibold text-gray-700 mb-2">
+//                         Points
+//                       </label>
+//                       <input
+//                         type="number"
+//                         value={question.points}
+//                         onChange={(e) => handleQuestionChange(index, 'points', parseInt(e.target.value, 10))}
+//                         min={1}
+//                         className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                       />
+//                     </div>
+//                   </div>
+                  
+//                   <div>
+//                     <label className="block text-sm font-semibold text-gray-700 mb-3">
+//                       Image (Optional)
+//                     </label>
+//                     <div className="flex items-center space-x-4">
+//                       <label className="cursor-pointer inline-flex items-center px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl shadow-md hover:from-blue-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200">
+//                         <Image size={18} className="mr-2" />
+//                         Upload Image
+//                         <input
+//                           type="file"
+//                           accept="image/*"
+//                           className="hidden"
+//                           onChange={(e) => handleImageUpload(index, e)}
+//                         />
+//                       </label>
+//                       {question.imageUrl && (
+//                         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+//                           ✓ Image uploaded
+//                         </span>
+//                       )}
+//                     </div>
+//                     {question.imageUrl && (
+//                       <div className="mt-4 p-4 bg-white/60 rounded-xl border-2 border-gray-200">
+//                         <img 
+//                           src={question.imageUrl} 
+//                           alt="Question" 
+//                           className="h-40 object-contain mx-auto rounded-lg shadow-md"
+//                         />
+//                       </div>
+//                     )}
+//                   </div>
+                  
+//                   {question.type === QUESTION_TYPES.MULTIPLE_CHOICE && (
+//                     <div>
+//                       <label className="block text-sm font-semibold text-gray-700 mb-3">
+//                         Options*
+//                       </label>
+//                       <div className="space-y-3">
+//                         {question.options.map((option) => (
+//                           <div key={option.id} className="flex items-center space-x-3 p-3 bg-white/60 rounded-xl border-2 border-gray-200">
+//                             <label className="inline-flex items-center cursor-pointer">
+//                               <input
+//                                 type="radio"
+//                                 name={`question_${question.id}_correct`}
+//                                 checked={question.correctAnswer === option.id}
+//                                 onChange={() => handleCorrectAnswerChange(index, option.id)}
+//                                 className="w-4 h-4 text-green-600 border-gray-300 focus:ring-green-500"
+//                               />
+//                               <span className="ml-2 w-6 text-sm font-bold text-gray-700">{option.id.toUpperCase()}.</span>
+//                             </label>
+//                             <input
+//                               type="text"
+//                               value={option.text}
+//                               onChange={(e) => handleOptionChange(index, option.id, e.target.value)}
+//                               className="flex-1 px-3 py-2 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200"
+//                               placeholder={`Option ${option.id.toUpperCase()}`}
+//                               required
+//                             />
+//                           </div>
+//                         ))}
+//                       </div>
+//                       <div className="mt-2 text-sm text-gray-500 bg-blue-50 p-3 rounded-lg">
+//                         💡 Select the radio button next to the correct answer
+//                       </div>
+//                     </div>
+//                   )}
+                  
+//                   {question.type === QUESTION_TYPES.NUMERICAL && (
+//                     <div className="space-y-4">
+//                       <div>
+//                         <label className="block text-sm font-semibold text-gray-700 mb-2">
+//                           Correct Answer*
+//                         </label>
+//                         <input
+//                           type="text"
+//                           value={question.correctAnswer}
+//                           onChange={(e) => handleCorrectAnswerChange(index, e.target.value)}
+//                           className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                           placeholder="e.g., 3.14"
+//                           required
+//                         />
+//                       </div>
+                      
+//                       <div>
+//                         <label className="block text-sm font-semibold text-gray-700 mb-2">
+//                           Tolerance (±)
+//                         </label>
+//                         <input
+//                           type="number"
+//                           value={question.tolerance || 0}
+//                           onChange={(e) => handleQuestionChange(index, 'tolerance', parseFloat(e.target.value))}
+//                           step="0.01"
+//                           min="0"
+//                           className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+//                           placeholder="e.g., 0.01"
+//                         />
+//                         <div className="mt-2 text-sm text-gray-500 bg-yellow-50 p-3 rounded-lg">
+//                           ⚡ Tolerance allows slightly different answers to be marked as correct (e.g., 3.14 ± 0.01)
+//                         </div>
+//                       </div>
+//                     </div>
+//                   )}
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+          
+//           {/* Action Buttons */}
+//           <div className="flex justify-end space-x-4 pt-8">
+//             <button
+//               type="button"
+//               onClick={() => navigate('/teacher')}
+//               className="inline-flex items-center px-6 py-3 border-2 border-gray-300 font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
+//             >
+//               Cancel
+//             </button>
+//             <button
+//               type="submit"
+//               className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200"
+//             >
+//               <Save size={18} className="mr-2" />
+//               Create Test
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CreateTest;
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Image, ChevronLeft, Save } from 'lucide-react';
+import { Plus, Trash2, Image, ChevronLeft, Save, Clock, BookOpen, Calendar, Settings } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Navbar from '../../components/Navbar';
 import { QUESTION_TYPES } from '../../types';
+import axios from '../../config/axios';
 
 const CreateTest = () => {
   const navigate = useNavigate();
@@ -94,8 +637,6 @@ const CreateTest = () => {
   const handleImageUpload = (questionIndex, e) => {
     const file = e.target.files[0];
     if (file) {
-      // In a real app, you would upload this to a server and get a URL back
-      // For this demo, we'll simulate having a URL for the image
       const fakeImageUrl = URL.createObjectURL(file);
       
       const updatedQuestions = [...questions];
@@ -110,7 +651,6 @@ const CreateTest = () => {
     const updatedQuestions = [...questions];
     updatedQuestions[questionIndex].type = newType;
     
-    // Reset correct answer when changing question type
     updatedQuestions[questionIndex].correctAnswer = '';
     
     setQuestions(updatedQuestions);
@@ -123,7 +663,6 @@ const CreateTest = () => {
     if (!testDetails.startTime) return 'Start time is required';
     if (!testDetails.endTime) return 'End time is required';
     
-    // Validate questions
     for (let i = 0; i < questions.length; i++) {
       const q = questions[i];
       if (!q.text) return `Question ${i + 1} text is required`;
@@ -144,7 +683,7 @@ const CreateTest = () => {
     return null;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const error = validateForm();
@@ -153,331 +692,392 @@ const CreateTest = () => {
       return;
     }
     
-    // In a real app, you would save this data to your backend
-    console.log('Test details:', testDetails);
-    console.log('Questions:', questions);
-    
-    toast.success('Test created successfully!');
-    navigate('/teacher');
+    try {
+      const payload = {
+        ...testDetails,
+        questions
+      };
+      const res = await axios.post('/api/teacher/tests', payload);
+      toast.success('Test created successfully!');
+      navigate('/teacher');
+    } catch (err) {
+      console.error(err);
+      const message = err.response?.data?.message || 'Failed to create test';
+      toast.error(message);
+    }
   };
 
   return (
-    //changed
-    <div className="w-screen  bg-gray-50">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <Navbar title="Create Test" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
-          <button 
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section */}
+        <div className="mb-8">
+         <button 
             onClick={() => navigate('/teacher')}
-            className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800"
+            className="group relative inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-600 hover:border-transparent shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 mb-6"
           >
-            <ChevronLeft size={16} className="mr-1" />
-            Back to Dashboard
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-600/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <ChevronLeft size={18} className="mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span className="relative z-10">Back to Dashboard</span>
+            <div className="ml-2 w-2 h-2 bg-indigo-400 rounded-full opacity-60 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
           </button>
-          <h1 className="text-2xl font-bold text-gray-900 mt-2">Create New Test</h1>
+          <div className="flex items-center space-x-3">
+            <div className="p-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+              <BookOpen className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Create New Test
+              </h1>
+              <p className="text-gray-600 mt-1">Design an engaging assessment for your students</p>
+            </div>
+          </div>
         </div>
         
-        <div className="bg-white shadow rounded-lg p-6 mb-8">
-          <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                  Test Title*
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={testDetails.title}
-                  onChange={handleTestDetailsChange}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 text-black focus:ring-blue-500 sm:text-sm"
-                  placeholder="e.g., Midterm Physics Exam"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                  Subject*
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={testDetails.subject}
-                  onChange={handleTestDetailsChange}
-                  className="block w-full rounded-md border-gray-300 text-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                  placeholder="e.g., Physics"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={testDetails.description}
-                  onChange={handleTestDetailsChange}
-                  rows={3}
-                  className="block w-full rounded-md text-black border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                  placeholder="Provide a brief description of the test"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-1">
-                  Duration (minutes)*
-                </label>
-                <input
-                  type="number"
-                  id="duration"
-                  name="duration"
-                  value={testDetails.duration}
-                  onChange={handleTestDetailsChange}
-                  min={5}
-                  className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="startTime" className="block text-sm font-medium text-gray-700 mb-1">
-                  Start Date & Time*
-                </label>
-                <input
-                  type="datetime-local"
-                  id="startTime"
-                  name="startTime"
-                  value={testDetails.startTime}
-                  onChange={handleTestDetailsChange}
-                  className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="endTime" className="block text-sm font-medium text-gray-700 mb-1">
-                  End Date & Time*
-                </label>
-                <input
-                  type="datetime-local"
-                  id="endTime"
-                  name="endTime"
-                  value={testDetails.endTime}
-                  onChange={handleTestDetailsChange}
-                  className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                  required
-                />
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Test Details Card */}
+          <div className="bg-white/70 backdrop-blur-sm shadow-xl rounded-2xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+              <div className="flex items-center space-x-2">
+                <Settings className="h-5 w-5 text-white" />
+                <h2 className="text-lg font-semibold text-white">Test Configuration</h2>
               </div>
             </div>
             
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Questions</h2>
-            
-            {questions.map((question, index) => (
-              <div key={question.id} className="mb-8 p-6 border border-gray-200 rounded-lg bg-gray-50 slide-in">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-md font-medium text-gray-700">Question {index + 1}</h3>
-                  <button
-                    type="button"
-                    onClick={() => removeQuestion(index)}
-                    className="inline-flex items-center px-2 py-1 text-sm font-medium text-red-700 bg-red-100 rounded hover:bg-red-200"
-                  >
-                    <Trash2 size={16} className="mr-1" />
-                    Remove
-                  </button>
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Question Text*
-                  </label>
-                  <textarea
-                    value={question.text}
-                    onChange={(e) => handleQuestionChange(index, 'text', e.target.value)}
-                    rows={2}
-                    className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Enter your question here"
-                    required
-                  />
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Question Type*
-                  </label>
-                  <div className="flex space-x-4">
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        checked={question.type === QUESTION_TYPES.MULTIPLE_CHOICE}
-                        onChange={() => handleTypeChange(index, QUESTION_TYPES.MULTIPLE_CHOICE)}
-                        className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">Multiple Choice</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        checked={question.type === QUESTION_TYPES.NUMERICAL}
-                        onChange={() => handleTypeChange(index, QUESTION_TYPES.NUMERICAL)}
-                        className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">Numerical</span>
-                    </label>
-                  </div>
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Points
-                  </label>
-                  <input
-                    type="number"
-                    value={question.points}
-                    onChange={(e) => handleQuestionChange(index, 'points', parseInt(e.target.value, 10))}
-                    min={1}
-                    className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                  />
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Image (Optional)
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <label className="cursor-pointer inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                      <Image size={16} className="mr-2" />
-                      Upload Image
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => handleImageUpload(index, e)}
-                      />
-                    </label>
-                    {question.imageUrl && (
-                      <span className="text-xs text-green-600">Image uploaded</span>
-                    )}
-                  </div>
-                  {question.imageUrl && (
-                    <div className="mt-2">
-                      <img 
-                        src={question.imageUrl} 
-                        alt="Question" 
-                        className="h-32 object-contain bg-white border rounded-md"
-                      />
-                    </div>
-                  )}
-                </div>
-                
-                {question.type === QUESTION_TYPES.MULTIPLE_CHOICE && (
-                  <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Options*
-                    </label>
-                    
-                    {question.options.map((option) => (
-                      <div key={option.id} className="flex items-center mb-2">
-                        <label className="inline-flex items-center mr-2">
-                          <input
-                            type="radio"
-                            name={`question_${question.id}_correct`}
-                            checked={question.correctAnswer === option.id}
-                            onChange={() => handleCorrectAnswerChange(index, option.id)}
-                            className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
-                          />
-                        </label>
-                        <div className="flex-1">
-                          <div className="flex items-center">
-                            <span className="mr-2 text-sm font-medium w-6">{option.id.toUpperCase()}.</span>
-                            <input
-                              type="text"
-                              value={option.text}
-                              onChange={(e) => handleOptionChange(index, option.id, e.target.value)}
-                              className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                              placeholder={`Option ${option.id.toUpperCase()}`}
-                              required
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    
-                    <div className="mt-1 text-sm text-gray-500">
-                      Select the radio button next to the correct answer
-                    </div>
-                  </div>
-                )}
-                
-                {question.type === QUESTION_TYPES.NUMERICAL && (
-                  <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Correct Answer*
+            <div className="p-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <div className="group">
+                    <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Test Title*
                     </label>
                     <input
                       type="text"
-                      value={question.correctAnswer}
-                      onChange={(e) => handleCorrectAnswerChange(index, e.target.value)}
-                      className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                      placeholder="e.g., 3.14"
+                      id="title"
+                      name="title"
+                      value={testDetails.title}
+                      onChange={handleTestDetailsChange}
+                      className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                      placeholder="e.g., Midterm Physics Exam"
                       required
                     />
-                    
-                    <div className="mt-3">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Tolerance (±)
+                  </div>
+                  
+                  <div className="group">
+                    <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Subject*
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={testDetails.subject}
+                      onChange={handleTestDetailsChange}
+                      className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                      placeholder="e.g., Physics"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="group">
+                    <label htmlFor="duration" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <Clock className="inline h-4 w-4 mr-1" />
+                      Duration (minutes)*
+                    </label>
+                    <input
+                      type="number"
+                      id="duration"
+                      name="duration"
+                      value={testDetails.duration}
+                      onChange={handleTestDetailsChange}
+                      min={5}
+                      className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                  <div className="group">
+                    <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={testDetails.description}
+                      onChange={handleTestDetailsChange}
+                      rows={4}
+                      className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50 resize-none"
+                      placeholder="Provide a brief description of the test"
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-1 gap-6">
+                    <div className="group">
+                      <label htmlFor="startTime" className="block text-sm font-semibold text-gray-700 mb-2">
+                        <Calendar className="inline h-4 w-4 mr-1" />
+                        Start Date & Time*
                       </label>
                       <input
-                        type="number"
-                        value={question.tolerance || 0}
-                        onChange={(e) => handleQuestionChange(index, 'tolerance', parseFloat(e.target.value))}
-                        step="0.01"
-                        min="0"
-                        className="block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                        placeholder="e.g., 0.01"
+                        type="datetime-local"
+                        id="startTime"
+                        name="startTime"
+                        value={testDetails.startTime}
+                        onChange={handleTestDetailsChange}
+                        className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                        required
                       />
-                      <div className="mt-1 text-sm text-gray-500">
-                        Tolerance allows slightly different answers to be marked as correct (e.g., 3.14 ± 0.01)
-                      </div>
+                    </div>
+                    
+                    <div className="group">
+                      <label htmlFor="endTime" className="block text-sm font-semibold text-gray-700 mb-2">
+                        <Calendar className="inline h-4 w-4 mr-1" />
+                        End Date & Time*
+                      </label>
+                      <input
+                        type="datetime-local"
+                        id="endTime"
+                        name="endTime"
+                        value={testDetails.endTime}
+                        onChange={handleTestDetailsChange}
+                        className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                        required
+                      />
                     </div>
                   </div>
-                )}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Questions Section */}
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg">
+                <BookOpen className="h-5 w-5 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Questions ({questions.length})</h2>
+            </div>
+            
+            {questions.map((question, index) => (
+              <div key={question.id}>
+                <div className="bg-white/70 backdrop-blur-sm shadow-xl rounded-2xl border border-white/20 overflow-hidden transform hover:scale-[1.02] transition-all duration-300">
+                  <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-sm">{index + 1}</span>
+                        </div>
+                        <h3 className="text-lg font-semibold text-white">Question {index + 1}</h3>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeQuestion(index)}
+                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-300 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-colors duration-200"
+                      >
+                        <Trash2 size={16} className="mr-1" />
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="p-8 space-y-6">
+                    <div className="group">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Question Text*
+                      </label>
+                      <textarea
+                        value={question.text}
+                        onChange={(e) => handleQuestionChange(index, 'text', e.target.value)}
+                        rows={3}
+                        className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50 resize-none"
+                        placeholder="Enter your question here"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+                          Question Type*
+                        </label>
+                        <div className="flex space-x-4">
+                          <label className="flex items-center p-3 bg-white/60 rounded-xl border-2 border-gray-200 cursor-pointer hover:bg-white/80 transition-colors duration-200">
+                            <input
+                              type="radio"
+                              checked={question.type === QUESTION_TYPES.MULTIPLE_CHOICE}
+                              onChange={() => handleTypeChange(index, QUESTION_TYPES.MULTIPLE_CHOICE)}
+                              className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                            />
+                            <span className="ml-3 text-sm font-medium text-gray-700">Multiple Choice</span>
+                          </label>
+                          <label className="flex items-center p-3 bg-white/60 rounded-xl border-2 border-gray-200 cursor-pointer hover:bg-white/80 transition-colors duration-200">
+                            <input
+                              type="radio"
+                              checked={question.type === QUESTION_TYPES.NUMERICAL}
+                              onChange={() => handleTypeChange(index, QUESTION_TYPES.NUMERICAL)}
+                              className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                            />
+                            <span className="ml-3 text-sm font-medium text-gray-700">Numerical</span>
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Points
+                        </label>
+                        <input
+                          type="number"
+                          value={question.points}
+                          onChange={(e) => handleQuestionChange(index, 'points', parseInt(e.target.value, 10))}
+                          min={1}
+                          className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
+                        Image (Optional)
+                      </label>
+                      <div className="flex items-center space-x-4">
+                        <label className="cursor-pointer inline-flex items-center px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl shadow-md hover:from-blue-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200">
+                          <Image size={18} className="mr-2" />
+                          Upload Image
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => handleImageUpload(index, e)}
+                          />
+                        </label>
+                        {question.imageUrl && (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            ✓ Image uploaded
+                          </span>
+                        )}
+                      </div>
+                      {question.imageUrl && (
+                        <div className="mt-4 p-4 bg-white/60 rounded-xl border-2 border-gray-200">
+                          <img 
+                            src={question.imageUrl} 
+                            alt="Question" 
+                            className="h-40 object-contain mx-auto rounded-lg shadow-md"
+                          />
+                        </div>
+                      )}
+                    </div>
+                    
+                    {question.type === QUESTION_TYPES.MULTIPLE_CHOICE && (
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+                          Options*
+                        </label>
+                        <div className="space-y-3">
+                          {question.options.map((option) => (
+                            <div key={option.id} className="flex items-center space-x-3 p-3 bg-white/60 rounded-xl border-2 border-gray-200">
+                              <label className="inline-flex items-center cursor-pointer">
+                                <input
+                                  type="radio"
+                                  name={`question_${question.id}_correct`}
+                                  checked={question.correctAnswer === option.id}
+                                  onChange={() => handleCorrectAnswerChange(index, option.id)}
+                                  className="w-4 h-4 text-green-600 border-gray-300 focus:ring-green-500"
+                                />
+                                <span className="ml-2 w-6 text-sm font-bold text-gray-700">{option.id.toUpperCase()}.</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={option.text}
+                                onChange={(e) => handleOptionChange(index, option.id, e.target.value)}
+                                className="flex-1 px-3 py-2 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200"
+                                placeholder={`Option ${option.id.toUpperCase()}`}
+                                required
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-2 text-sm text-gray-500 bg-blue-50 p-3 rounded-lg">
+                          💡 Select the radio button next to the correct answer
+                        </div>
+                      </div>
+                    )}
+                    
+                    {question.type === QUESTION_TYPES.NUMERICAL && (
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Correct Answer*
+                          </label>
+                          <input
+                            type="text"
+                            value={question.correctAnswer}
+                            onChange={(e) => handleCorrectAnswerChange(index, e.target.value)}
+                            className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                            placeholder="e.g., 3.14"
+                            required
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Tolerance (±)
+                          </label>
+                          <input
+                            type="number"
+                            value={question.tolerance || 0}
+                            onChange={(e) => handleQuestionChange(index, 'tolerance', parseFloat(e.target.value))}
+                            step="0.01"
+                            min="0"
+                            className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                            placeholder="e.g., 0.01"
+                          />
+                          <div className="mt-2 text-sm text-gray-500 bg-yellow-50 p-3 rounded-lg">
+                            ⚡ Tolerance allows slightly different answers to be marked as correct (e.g., 3.14 ± 0.01)
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Add Question Button - Now appears after each question */}
+                <div className="flex justify-center mt-4">
+                  <button
+                    type="button"
+                    onClick={addQuestion}
+                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-200"
+                  >
+                    <Plus size={18} className="mr-2" />
+                    Add Question Below
+                  </button>
+                </div>
               </div>
             ))}
-            
-            <div className="mb-8">
-              <button
-                type="button"
-                onClick={addQuestion}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                <Plus size={16} className="mr-2" />
-                Add Question
-              </button>
-            </div>
-            
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={() => navigate('/teacher')}
-                className="mr-3 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                <Save size={16} className="mr-2" />
-                Create Test
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex justify-end space-x-4 pt-8">
+            <button
+              type="button"
+              onClick={() => navigate('/teacher')}
+              className="inline-flex items-center px-6 py-3 border-2 border-gray-300 font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200"
+            >
+              <Save size={18} className="mr-2" />
+              Create Test
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
