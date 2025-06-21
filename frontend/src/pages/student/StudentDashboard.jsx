@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Clock, Calendar, BookOpen } from "lucide-react";
+import { Clock, Calendar, Bookmark } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "../../config/axios";
@@ -81,12 +81,12 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="h-screen w-screen bg-gray-50">
+        <div className="h-fit w-screen bg-gray-50 p-10">
             <Navbar title="Student Dashboard" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900">
+            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="mb-8 pt-8">
+                    <h1 className="text-4xl font-bold text-gray-900">
                         Welcome, {currentUser?.name}
                     </h1>
                     <p className="text-gray-600 mt-1">
@@ -102,8 +102,8 @@ const StudentDashboard = () => {
                 ) : (
                     <>
                         {/* Available Tests */}
-                        <div className="bg-white shadow rounded-lg p-6 mb-8">
-                            <h2 className="text-lg font-medium text-gray-900 mb-4">
+                        <div className="bg-white shadow rounded-lg p-6 mb-8 border border-gray-300">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4">
                                 Available Tests
                             </h2>
                             {tests.filter(isAvailable).length === 0 ? (
@@ -113,13 +113,13 @@ const StudentDashboard = () => {
                                     </p>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 border-t border-gray-300 pt-4">
                                     {tests.filter(isAvailable).map((test) => (
                                         <div
                                             key={test._id}
-                                            className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md"
+                                            className="bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md"
                                         >
-                                            <div className="p-5">
+                                            <div className="p-5 hover:shadow-lg transition-shadow duration-200">
                                                 <div className="flex justify-between items-start mb-3">
                                                     <h3 className="text-xl font-semibold text-gray-900">
                                                         {test.title}
@@ -132,13 +132,13 @@ const StudentDashboard = () => {
                                                 <div className="flex items-center text-sm text-gray-500 mb-2">
                                                     <Clock
                                                         size={16}
-                                                        className="mr-1"
+                                                        className="mr-1 text-green-600"
                                                     />
                                                     <span>
                                                         {test.duration} minutes
                                                     </span>
                                                 </div>
-                                                <div className="text-sm text-gray-500 mb-4">
+                                                <div className="text-sm font-medium text-gray-500 mb-4">
                                                     <div>
                                                         Ends:{" "}
                                                         {formatDate(
@@ -157,9 +157,9 @@ const StudentDashboard = () => {
                                                     ) : (
                                                         <Link
                                                             to={`/student/take-test/${test._id}`}
-                                                            className="w-full inline-flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md"
+                                                            className="w-full inline-flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md hover:scale-103 transition-transform duration-400"
                                                         >
-                                                            <BookOpen
+                                                            <Bookmark
                                                                 size={16}
                                                                 className="mr-2"
                                                             />{" "}
@@ -175,7 +175,7 @@ const StudentDashboard = () => {
                         </div>
 
                         {/* Upcoming Tests */}
-                        <div className="bg-white shadow rounded-lg p-6 mb-8">
+                        <div className="bg-gray-200 border border-gray-400 rounded-lg p-6 mb-8">
                             <h2 className="text-lg font-medium text-gray-900 mb-4">
                                 Upcoming Tests
                             </h2>
@@ -186,11 +186,11 @@ const StudentDashboard = () => {
                                     </p>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 border-t border-gray-400 pt-4">
                                     {tests.filter(isUpcoming).map((test) => (
                                         <div
                                             key={test._id}
-                                            className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md"
+                                            className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 "
                                         >
                                             <div className="p-5">
                                                 <div className="flex justify-between items-start mb-3">

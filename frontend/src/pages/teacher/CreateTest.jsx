@@ -179,7 +179,7 @@ const CreateTest = () => {
     };
 
     return (
-        <div className="min-h-screen w-screen from-slate-50">
+        <div className="min-h-screen w-screen from-slate-50 p-12">
             <Navbar title="Create New Test" />
 
             <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -187,15 +187,14 @@ const CreateTest = () => {
                 <div className="mb-8">
                     <button
                         onClick={() => navigate("/teacher")}
-                        className="group relative inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:border-transparent shadow-lg hover:shadow-xl transform mb-6"
+                        className="group inline-flex items-center px-4 py-2 bg-white/80 border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:border-transparent shadow-lg hover:shadow-xl transform mb-6"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-600/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         <ChevronLeft
                             size={18}
                             className="mr-2 group-hover:-translate-x-1 transition-transform duration-300"
                         />
-                        <span className="relative z-10">Back to Dashboard</span>
-                        <div className="ml-2 w-2 h-2 bg-indigo-400 rounded-full opacity-60 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
+                        <span>Back to Dashboard</span>
+                        <div className="ml-2 w-2 h-2 bg-indigo-400 rounded-full group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
                     </button>
                 </div>
 
@@ -353,7 +352,7 @@ const CreateTest = () => {
 
                         {questions.map((question, index) => (
                             <div key={question.id}>
-                                <div className="bg-white/70 backdrop-blur-sm shadow-sm rounded-md border border-gray-300 overflow-hidden ">
+                                <div className="bg-white/70 shadow-sm rounded-md border border-gray-300 overflow-hidden ">
                                     <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center space-x-3">

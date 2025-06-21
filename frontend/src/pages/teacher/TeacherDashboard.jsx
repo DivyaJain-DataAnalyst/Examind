@@ -64,7 +64,7 @@ const TeacherDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white p-10">
             <Navbar title="Teacher Dashboard" />
 
             <div className="max-w-8xl mx-auto px-6 py-12">

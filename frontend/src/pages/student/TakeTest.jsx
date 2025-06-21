@@ -102,14 +102,14 @@ const TakeTest = () => {
         );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-            <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-4 gap-6">
+        <div className="min-h-full">
+            <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-4 gap-6">
                 {/* Test Content */}
                 <div className="col-span-3">
-                    <div className="bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl p-8 mb-6">
+                    <div className="bg-blue-600/10 backdrop-blur-sm border border-blue-400 shadow-lg rounded-2xl p-8 mb-6">
                         <div className="flex justify-between items-center">
                             <div>
-                                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                                <h1 className="text-3xl font-bold bg-blue-600 bg-clip-text text-transparent mb-2">
                                     {test.title}
                                 </h1>
                                 <p className="text-gray-600 text-lg">
@@ -150,7 +150,7 @@ const TakeTest = () => {
                             >
                                 <div className="p-8">
                                     <div className="flex items-start space-x-4 mb-6">
-                                        <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                                        <div className="flex-shrink-0 w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
                                             <span className="text-white font-bold text-sm">
                                                 {index + 1}
                                             </span>
@@ -235,7 +235,7 @@ const TakeTest = () => {
 
                     <div className="text-center mt-8">
                         <button
-                            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                            className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
                             onClick={handleSubmitTest}
                         >
                             <svg
@@ -257,8 +257,8 @@ const TakeTest = () => {
                 </div>
 
                 {/* Question Navigator */}
-                <div className="col-span-1 bg-white/80 backdrop-blur-sm border border-white/50 p-6 rounded-2xl shadow-xl sticky top-6 h-fit">
-                    <h2 className="font-bold text-xl mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <div className="col-span-1 bg-white/80 backdrop-blur-sm border border-black/50 p-6 rounded-2xl sticky top-6 h-fit">
+                    <h2 className="font-bold text-xl mb-6 text-center bg-blue-600 bg-clip-text text-transparent">
                         Questions
                     </h2>
 
@@ -272,7 +272,7 @@ const TakeTest = () => {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
-                                className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500"
+                                className="h-2 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full transition-all duration-500"
                                 style={{
                                     width: `${
                                         questions.length > 0
@@ -297,7 +297,7 @@ const TakeTest = () => {
                                 className={`relative w-12 h-12 rounded-xl font-bold text-sm transition-all duration-300 transform hover:scale-110 shadow-lg
                   ${
                       answers[q.id]
-                          ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-emerald-200"
+                          ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white"
                           : "bg-white border-2 border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50"
                   }`}
                                 title="Double-click to clear answer"
