@@ -24,23 +24,29 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 py-12 px-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4">
+            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in border border-gray-300">
                 <div className="flex flex-col items-center">
                     <svg
-                        className="w-16 h-16 text-blue-500 mb-2"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-contact-icon lucide-contact"
+                        className="w-16 h-24 text-blue-800 mb-2"
                     >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
+                        <path d="M16 2v2" />
+                        <path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+                        <path d="M8 2v2" />
+                        <circle cx="12" cy="11" r="3" />
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
                     </svg>
-                    <h2 className="text-3xl font-extrabold text-gray-900 mb-2">
+                    <h2 className="text-4xl font-extrabold text-gray-900 mb-2">
                         Create Your Account
                     </h2>
                     <p className="text-gray-500 text-sm">
@@ -83,7 +89,7 @@ const Register = () => {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-purple-600 transition"
+                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 hover:shadow-xl transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? "Creating Account..." : "Create Account"}
                     </button>

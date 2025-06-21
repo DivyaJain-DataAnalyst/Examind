@@ -187,7 +187,7 @@ const CreateTest = () => {
                 <div className="mb-8">
                     <button
                         onClick={() => navigate("/teacher")}
-                        className="group relative inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:border-transparent shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 mb-6"
+                        className="group relative inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:border-transparent shadow-lg hover:shadow-xl transform mb-6"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-600/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         <ChevronLeft

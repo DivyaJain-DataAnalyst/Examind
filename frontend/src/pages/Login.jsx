@@ -27,23 +27,27 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100 py-12 px-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 ">
+            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in border border-gray-300">
                 <div className="flex flex-col items-center">
                     <svg
-                        className="w-16 h-16 text-blue-600 mb-2"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-square-user-icon lucide-square-user"
+                        className="w-16 h-24 text-blue-800 mb-2"
                     >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
+                        <rect width="18" height="18" x="3" y="3" rx="2" />
+                        <circle cx="12" cy="10" r="3" />
+                        <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
                     </svg>
-                    <h2 className="text-3xl font-extrabold text-gray-900 mb-2">
+                    <h2 className="text-3xl font-extrabold text-black mb-2">
                         Sign In to Your Account
                     </h2>
                     <p className="text-gray-500 text-sm">
@@ -56,7 +60,7 @@ const Login = () => {
                         placeholder="Email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                         required
                     />
                     <input
@@ -64,13 +68,13 @@ const Login = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                         required
                     />
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-blue-600 transition"
+                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:shadow-xl shadow-lg hover:bg-blue-700 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? "Signing in..." : "Sign In"}
                     </button>

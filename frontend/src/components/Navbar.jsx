@@ -26,7 +26,7 @@ const Navbar = ({ title = "ExamPortal" }) => {
                             }
                             className="flex-shrink-0 flex items-center"
                         >
-                            <span className="text-blue-800 text-3xl font-bold">
+                            <span className="text-blue-900 text-3xl font-bold">
                                 {title}
                             </span>
                         </Link>
@@ -40,10 +40,10 @@ const Navbar = ({ title = "ExamPortal" }) => {
                         )}
                         <button
                             onClick={handleLogout}
-                            className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 transition duration-150 ease-in-out"
+                            className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-white bg-red-800 hover:bg-red-700 hover:scale-105 transition duration-150 ease-in-out"
                         >
                             <LogOut size={16} />
-                            <span>Logout</span>
+                            <span>Log out</span>
                         </button>
                     </div>
 
@@ -72,7 +72,7 @@ const Navbar = ({ title = "ExamPortal" }) => {
                             className="flex items-center w-full space-x-1 px-3 py-2 rounded-md text-sm font-medium text-white bg-blue-800 hover:bg-blue-900"
                         >
                             <LogOut size={16} />
-                            <span>Logout</span>
+                            <span>Log out</span>
                         </button>
                     </div>
                 </div>
