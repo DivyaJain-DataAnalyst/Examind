@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
     PlusCircle,
@@ -63,18 +63,18 @@ const TeacherDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="min-h-screen bg-white">
             <Navbar title="Teacher Dashboard" />
 
-            <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="max-w-8xl mx-auto px-6 py-12">
                 {/* Header Section */}
-                <div className="mb-12">
+                <div className="mb-12 bg-red">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                         <div className="mb-6 lg:mb-0">
                             <h1 className="text-4xl font-bold text-gray-900 mb-2">
                                 Welcome back, {user?.name}
                             </h1>
-                            <p className="text-lg text-gray-600">
+                            <p className="text-md text-gray-600">
                                 Manage your tests and track student performance
                             </p>
                         </div>
@@ -90,14 +90,14 @@ const TeacherDashboard = () => {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 border-t border-gray-200 pt-6 ">
+                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                         <div className="flex items-center">
                             <div className="p-3 bg-blue-100 rounded-xl">
                                 <BookOpen className="w-6 h-6 text-blue-600" />
                             </div>
                             <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">
+                                <p className="text-sm font-medium text-black">
                                     Total Tests
                                 </p>
                                 <p className="text-2xl font-bold text-gray-900">
@@ -107,13 +107,13 @@ const TeacherDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                        <div className="flex items-center">
+                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm ">
+                        <div className="flex items-center ">
                             <div className="p-3 bg-green-100 rounded-xl">
                                 <Users className="w-6 h-6 text-green-600" />
                             </div>
                             <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">
+                                <p className="text-sm font-medium text-black">
                                     Active Tests
                                 </p>
                                 <p className="text-2xl font-bold text-gray-900">
@@ -127,13 +127,13 @@ const TeacherDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm ">
                         <div className="flex items-center">
                             <div className="p-3 bg-purple-100 rounded-xl">
                                 <Calendar className="w-6 h-6 text-purple-600" />
                             </div>
                             <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">
+                                <p className="text-sm font-medium text-black">
                                     Upcoming
                                 </p>
                                 <p className="text-2xl font-bold text-gray-900">
@@ -149,8 +149,8 @@ const TeacherDashboard = () => {
                 </div>
 
                 {/* Tests Section */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-                    <div className="p-8 border-b border-gray-100">
+                <div className="bg-white rounded-2xl ">
+                    <div className="p-8 border-b border-gray-200 ">
                         <h2 className="text-2xl font-bold text-gray-900">
                             Your Tests
                         </h2>
@@ -187,18 +187,20 @@ const TeacherDashboard = () => {
                                 </Link>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 ">
                                 {tests.map((test) => (
                                     <div
                                         key={test._id}
-                                        className="bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200 overflow-hidden"
+                                        className="bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-200 overflow-hidden shadow-lg"
                                     >
                                         {/* Header */}
                                         <div className="p-6 pb-4">
-                                            <div className="flex items-start justify-between mb-3">
-                                                <h3 className="text-lg font-semibold text-gray-900 truncate flex-1 mr-3">
+                                            <div className="flex justify-between mb-3 items-center group space-x-2">
+                                                <h3 className="text-lg font-semibold text-gray-900 truncate flex-1 mr-3 ">
                                                     {/* {test.title} */}
                                                 </h3>
+                                                <div className="ml-2 w-2 h-2 bg-red-700 rounded-full opacity-60 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
+
                                                 <span
                                                     className={`px-2.5 py-1 rounded-lg text-xs font-medium ${getStatusColor(
                                                         test.status
@@ -209,14 +211,16 @@ const TeacherDashboard = () => {
                                             </div>
 
                                             <div className="flex items-center gap-4 text-sm text-gray-600">
-                                                <div className="flex items-center">
+                                                <div className="flex items-center border border-blue-200 p-2 rounded-md">
                                                     <BookOpen
                                                         size={16}
                                                         className="mr-1.5 text-blue-500"
                                                     />
-                                                    <span>{test.subject}</span>
+                                                    <span className="text-xl font-bold text-gray-500">
+                                                        {test.subject}
+                                                    </span>
                                                 </div>
-                                                <div className="flex items-center">
+                                                <div className="flex items-center border border-red-400 rounded-full p-2">
                                                     <Clock
                                                         size={16}
                                                         className="mr-1.5 text-green-500"

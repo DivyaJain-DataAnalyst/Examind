@@ -2,6 +2,13 @@ import { LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import PropTypes from "prop-types";
+
+// ...existing code...
+
+Navbar.propTypes = {
+    title: PropTypes.string.isRequired,
+};
 
 const Navbar = ({ title = "ExamPortal" }) => {
     const { logout, currentUser } = useAuth();
@@ -14,7 +21,7 @@ const Navbar = ({ title = "ExamPortal" }) => {
     };
 
     return (
-        <nav className="bg-transparent shadow-lg">
+        <nav className="bg-transparent shadow-lg ">
             <div className="max-w-8xl px-8 mx-auto">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center ">

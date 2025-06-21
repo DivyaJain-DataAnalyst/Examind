@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Plus,
@@ -7,9 +7,9 @@ import {
     ChevronLeft,
     Save,
     Clock,
-    BookOpen,
     Calendar,
     Settings,
+    BookMarked,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
@@ -167,7 +167,7 @@ const CreateTest = () => {
                 ...testDetails,
                 questions,
             };
-            const res = await axios.post("/api/teacher/tests", payload);
+            await axios.post("/api/teacher/tests", payload);
             toast.success("Test created successfully!");
             navigate("/teacher");
         } catch (err) {
@@ -201,8 +201,8 @@ const CreateTest = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                     {/* Test Details Card */}
-                    <div className="bg-white/70 shadow-xl rounded-xl border border-white/20 overflow-hidden">
-                        <div className=" bg-indigo-500 px-6 py-4">
+                    <div className="bg-white/70 shadow-sm rounded-md border border-gray-200 overflow-hidden">
+                        <div className=" bg-blue-700/90 px-6 py-4">
                             <div className="flex items-center space-x-2">
                                 <Settings className="h-5 w-5 text-white" />
                                 <h2 className="text-lg font-semibold text-white">
@@ -343,8 +343,8 @@ const CreateTest = () => {
                     {/* Questions Section */}
                     <div className="space-y-6">
                         <div className="flex items-center space-x-3">
-                            <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg">
-                                <BookOpen className="h-5 w-5 text-white" />
+                            <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full">
+                                <BookMarked className="h-6 w-6 text-white" />
                             </div>
                             <h2 className="text-2xl font-bold text-gray-900">
                                 Questions ({questions.length})
@@ -353,7 +353,7 @@ const CreateTest = () => {
 
                         {questions.map((question, index) => (
                             <div key={question.id}>
-                                <div className="bg-white/70 backdrop-blur-sm shadow-xl rounded-xl border border-white/20 overflow-hidden ">
+                                <div className="bg-white/70 backdrop-blur-sm shadow-sm rounded-md border border-gray-300 overflow-hidden ">
                                     <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center space-x-3">
