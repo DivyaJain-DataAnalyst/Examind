@@ -8,6 +8,7 @@ import {
     Calendar,
     Users,
     BookOpen,
+    BookCheck,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import { useAuth } from "../../contexts/AuthContext";
@@ -94,7 +95,7 @@ const TeacherDashboard = () => {
                     <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                         <div className="flex items-center">
                             <div className="p-3 bg-blue-100 rounded-xl">
-                                <BookOpen className="w-6 h-6 text-blue-600" />
+                                <BookCheck className="w-6 h-6 text-blue-600" />
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-black">

@@ -1,15 +1,15 @@
 // import React from 'react';
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
-// ...existing code...
+// // ...existing code...
 
-ProtectedRoute.propTypes = {
-    role: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired, // Ensure children is a React node
-    // add other props if needed
-};
+// ProtectedRoute.propTypes = {
+//     role: PropTypes.string.isRequired,
+//     children: PropTypes.node.isRequired, // Ensure children is a React node
+//     // add other props if needed
+// };
 
 const ProtectedRoute = ({ children, role }) => {
     const { user } = useAuth();

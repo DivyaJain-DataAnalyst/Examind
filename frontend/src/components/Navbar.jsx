@@ -2,13 +2,13 @@ import { LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
-// ...existing code...
+// // ...existing code...
 
-Navbar.propTypes = {
-    title: PropTypes.string.isRequired,
-};
+// Navbar.propTypes = {
+//     title: PropTypes.string.isRequired,
+// };
 
 const Navbar = ({ title = "ExamPortal" }) => {
     const { logout, currentUser } = useAuth();
