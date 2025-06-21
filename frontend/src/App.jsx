@@ -57,25 +57,25 @@ function App() {
                         <Route
                             path="/student"
                             element={
-                                <ProtectedRoute role="student">
-                                    <StudentDashboard />
-                                </ProtectedRoute>
+                                // <ProtectedRoute role="student">
+                                <StudentDashboard />
+                                // </ProtectedRoute>
                             }
                         />
                         <Route
                             path="/student/take-test/:testId"
                             element={
-                                <ProtectedRoute role="student">
-                                    <TakeTest />
-                                </ProtectedRoute>
+                                // <ProtectedRoute role="student">
+                                <TakeTest />
+                                // </ProtectedRoute>
                             }
                         />
                         <Route
                             path="/student/results/:testId"
                             element={
-                                <ProtectedRoute role="student">
-                                    <TestResults />
-                                </ProtectedRoute>
+                                // <ProtectedRoute role="student">
+                                <TestResults />
+                                // </ProtectedRoute>
                             }
                         />
 

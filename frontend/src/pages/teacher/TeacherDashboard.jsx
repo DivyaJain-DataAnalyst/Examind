@@ -197,7 +197,7 @@ const TeacherDashboard = () => {
                                         <div className="p-6 pb-4">
                                             <div className="flex items-start justify-between mb-3">
                                                 <h3 className="text-lg font-semibold text-gray-900 truncate flex-1 mr-3">
-                                                    {test.title}
+                                                    {/* {test.title} */}
                                                 </h3>
                                                 <span
                                                     className={`px-2.5 py-1 rounded-lg text-xs font-medium ${getStatusColor(
