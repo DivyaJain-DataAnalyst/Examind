@@ -31,25 +31,25 @@ function App() {
                         <Route
                             path="/teacher"
                             element={
-                                // <ProtectedRoute role="teacher">
-                                <TeacherDashboard />
-                                // </ProtectedRoute>
+                                <ProtectedRoute role="teacher">
+                                    <TeacherDashboard />
+                                </ProtectedRoute>
                             }
                         />
                         <Route
                             path="/teacher/create-test"
                             element={
-                                // <ProtectedRoute role="teacher">
-                                <CreateTest />
-                                // </ProtectedRoute>
+                                <ProtectedRoute role="teacher">
+                                    <CreateTest />
+                                </ProtectedRoute>
                             }
                         />
                         <Route
                             path="/teacher/edit-test/:testId"
                             element={
-                                // <ProtectedRoute role="teacher">
-                                <EditTest />
-                                // </ProtectedRoute>
+                                <ProtectedRoute role="teacher">
+                                    <EditTest />
+                                </ProtectedRoute>
                             }
                         />
 
@@ -57,25 +57,25 @@ function App() {
                         <Route
                             path="/student"
                             element={
-                                // <ProtectedRoute role="student">
-                                <StudentDashboard />
-                                // </ProtectedRoute>
+                                <ProtectedRoute role="student">
+                                    <StudentDashboard />
+                                </ProtectedRoute>
                             }
                         />
                         <Route
                             path="/student/take-test/:testId"
                             element={
-                                // <ProtectedRoute role="student">
-                                <TakeTest />
-                                // </ProtectedRoute>
+                                <ProtectedRoute role="student">
+                                    <TakeTest />
+                                </ProtectedRoute>
                             }
                         />
                         <Route
                             path="/student/results/:testId"
                             element={
-                                // <ProtectedRoute role="student">
-                                <TestResults />
-                                // </ProtectedRoute>
+                                <ProtectedRoute role="student">
+                                    <TestResults />
+                                </ProtectedRoute>
                             }
                         />
 
