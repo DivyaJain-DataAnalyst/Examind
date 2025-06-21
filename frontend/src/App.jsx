@@ -20,6 +20,7 @@ import Register from "./pages/Register.jsx";
 function App() {
     return (
         <AuthProvider>
+            
             <Router>
                 {/* //changed */}
 

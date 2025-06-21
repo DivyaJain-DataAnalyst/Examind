@@ -73,7 +73,7 @@ const TeacherDashboard = () => {
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                         <div className="mb-6 lg:mb-0">
                             <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                                Welcome back, {user?.name}
+                                Welcome back, {user?.name && user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
                             </h1>
                             <p className="text-md text-gray-600">
                                 Manage your tests and track student performance

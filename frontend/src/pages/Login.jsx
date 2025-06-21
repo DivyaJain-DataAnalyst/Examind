@@ -12,10 +12,11 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        const success = await login(email, password);
+
+        const user = await login(email, password);
         setIsLoading(false);
-        if (success) {
-            const user = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (user) {
             if (user.role === "teacher") {
                 navigate("/teacher");
             } else if (user.role === "student") {
@@ -27,7 +28,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center py-12 px-4 ">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4">
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in border border-gray-300">
                 <div className="flex flex-col items-center">
                     <svg
@@ -37,11 +38,10 @@ const Login = () => {
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-square-user-icon lucide-square-user"
-                        className="w-16 h-24 text-blue-800 mb-2"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-square-user w-16 h-24 text-blue-800 mb-2"
                     >
                         <rect width="18" height="18" x="3" y="3" rx="2" />
                         <circle cx="12" cy="10" r="3" />

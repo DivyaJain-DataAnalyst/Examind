@@ -87,7 +87,7 @@ const StudentDashboard = () => {
             <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="mb-8 pt-8">
                     <h1 className="text-4xl font-bold text-gray-900">
-                        Welcome, {currentUser?.name}
+                        Welcome, {currentUser?.name && currentUser.name.charAt(0).toUpperCase() + currentUser.name.slice(1).toLowerCase()}
                     </h1>
                     <p className="text-gray-600 mt-1">
                         View your upcoming and available tests
