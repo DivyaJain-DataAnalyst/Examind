@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-
 const Navbar = ({ title = "ExamPortal" }) => {
     const { logout, currentUser } = useAuth();
     const navigate = useNavigate();
@@ -15,8 +14,8 @@ const Navbar = ({ title = "ExamPortal" }) => {
     };
 
     return (
-        <nav className="bg-white shadow-lg fixed top-0 left-0 w-full">
-            <div className="max-w-8xl px-8 mx-auto">
+        <nav className="bg-white mr-5 shadow-[0_1px_10px_rgba(0,0,0,0.25)] fixed top-0 left-0 w-full rounded-b-xl">
+            <div className="max-w-8xl px-12 py-2 mx-auto">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center ">
                         <Link
@@ -27,7 +26,7 @@ const Navbar = ({ title = "ExamPortal" }) => {
                             }
                             className="flex-shrink-0 flex items-center"
                         >
-                            <span className="text-blue-900 text-3xl font-bold">
+                            <span className="text-blue-900 text-[38px] font-bold text-shadow-lg">
                                 {title}
                             </span>
                         </Link>
@@ -35,13 +34,13 @@ const Navbar = ({ title = "ExamPortal" }) => {
 
                     <div className="hidden md:flex items-center space-x-4">
                         {currentUser && (
-                            <div className="text-white font-medium">
+                            <div className="text-white font-medium ">
                                 {currentUser.name} ({currentUser.role})
                             </div>
                         )}
                         <button
                             onClick={handleLogout}
-                            className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-white bg-red-800 hover:bg-red-700 hover:scale-105 transition duration-150 ease-in-out"
+                            className="flex items-center space-x-1 px-3 py-2 rounded-md text-md font-medium text-white bg-red-800 hover:bg-red-700 hover:scale-105 transition duration-150 ease-in-out"
                         >
                             <LogOut size={16} />
                             <span>Log out</span>

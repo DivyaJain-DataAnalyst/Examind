@@ -81,13 +81,16 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="h-fit w-screen bg-gray-50 p-10">
+        <div className="h-fit w-full p-10">
             <Navbar title="Student Dashboard" />
 
             <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="mb-8 pt-8">
                     <h1 className="text-4xl font-bold text-gray-900">
-                        Welcome, {currentUser?.name && currentUser.name.charAt(0).toUpperCase() + currentUser.name.slice(1).toLowerCase()}
+                        Welcome,{" "}
+                        {currentUser?.name &&
+                            currentUser.name.charAt(0).toUpperCase() +
+                                currentUser.name.slice(1).toLowerCase()}
                     </h1>
                     <p className="text-gray-600 mt-1">
                         View your upcoming and available tests
@@ -102,8 +105,8 @@ const StudentDashboard = () => {
                 ) : (
                     <>
                         {/* Available Tests */}
-                        <div className="bg-white shadow rounded-lg p-6 mb-8 border border-gray-300">
-                            <h2 className="text-xl font-bold text-gray-900 mb-4">
+                        <div className="bg-white rounded-lg p-6 mb-8 border border-gray-300 shadow-[0_1px_10px_rgba(0,0,0,0.25)] ">
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4">
                                 Available Tests
                             </h2>
                             {tests.filter(isAvailable).length === 0 ? (
@@ -117,7 +120,7 @@ const StudentDashboard = () => {
                                     {tests.filter(isAvailable).map((test) => (
                                         <div
                                             key={test._id}
-                                            className="bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md"
+                                            className="bg-white border border-gray-300 rounded-lg shadow-[0_1px_10px_rgba(0,0,0,0.25)] hover:shadow-md"
                                         >
                                             <div className="p-5 hover:shadow-lg transition-shadow duration-200">
                                                 <div className="flex justify-between items-start mb-3">
@@ -175,8 +178,8 @@ const StudentDashboard = () => {
                         </div>
 
                         {/* Upcoming Tests */}
-                        <div className="bg-gray-200 border border-gray-400 rounded-lg p-6 mb-8">
-                            <h2 className="text-lg font-medium text-gray-900 mb-4">
+                        <div className="bg-white rounded-lg p-6 mb-8 shadow-[0_1px_10px_rgba(0,0,0,0.25)] ">
+                            <h2 className="text-2xl font-medium text-gray-900 mb-4">
                                 Upcoming Tests
                             </h2>
                             {tests.filter(isUpcoming).length === 0 ? (

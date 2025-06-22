@@ -102,14 +102,14 @@ const TakeTest = () => {
         );
 
     return (
-        <div className="min-h-full">
+        <div className="min-h-full bg-white">
             <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-4 gap-6">
                 {/* Test Content */}
                 <div className="col-span-3">
-                    <div className="bg-blue-600/10 backdrop-blur-sm border border-blue-400 shadow-lg rounded-2xl p-8 mb-6">
+                    <div className="bg-blue-600/10 backdrop-blur-sm shadow-[0_2px_20px_rgba(0,0,0,0.25)]  border border-blue-400 rounded-2xl p-8 mb-6">
                         <div className="flex justify-between items-center">
                             <div>
-                                <h1 className="text-3xl font-bold bg-blue-600 bg-clip-text text-transparent mb-2">
+                                <h1 className="text-3xl font-bold bg-blue-600 bg-clip-text text-transparent mb-2 text-shadow-lg">
                                     {test.title}
                                 </h1>
                                 <p className="text-gray-600 text-lg">
@@ -138,12 +138,12 @@ const TakeTest = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 bg-gray-300/10 rounded-2xl">
                         {questions.map((q, index) => (
                             <div
                                 key={q.id}
                                 ref={(el) => (questionRefs.current[q.id] = el)}
-                                className="bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl"
+                                className=""
                                 onDoubleClick={() =>
                                     handleQuestionDoubleClick(q.id)
                                 }
@@ -235,7 +235,7 @@ const TakeTest = () => {
 
                     <div className="text-center mt-8">
                         <button
-                            className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                            className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-bold text-lg rounded-2xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
                             onClick={handleSubmitTest}
                         >
                             <svg
@@ -257,8 +257,8 @@ const TakeTest = () => {
                 </div>
 
                 {/* Question Navigator */}
-                <div className="col-span-1 bg-white/80 backdrop-blur-sm border border-black/50 p-6 rounded-2xl sticky top-6 h-fit">
-                    <h2 className="font-bold text-xl mb-6 text-center bg-blue-600 bg-clip-text text-transparent">
+                <div className="col-span-1 shadow-[0_1px_10px_rgba(0,0,0,0.25)]  bg-white/80 p-6 rounded-2xl sticky top-6 h-fit">
+                    <h2 className="font-bold text-3xl mb-6 text-center bg-blue-600 bg-clip-text text-transparent text-shadow-lg">
                         Questions
                     </h2>
 
@@ -294,17 +294,17 @@ const TakeTest = () => {
                                 onDoubleClick={() =>
                                     handleQuestionDoubleClick(q.id)
                                 }
-                                className={`relative w-12 h-12 rounded-xl font-bold text-sm transition-all duration-300 transform hover:scale-110 shadow-lg
+                                className={`relative w-12 h-12 rounded-xl font-bold text-sm transition-all duration-300 transform hover:scale-110 
                   ${
                       answers[q.id]
-                          ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white"
+                          ? "bg-green-500 text-white"
                           : "bg-white border-2 border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50"
                   }`}
                                 title="Double-click to clear answer"
                             >
                                 {index + 1}
                                 {answers[q.id] && (
-                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full flex items-center justify-center">
+                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-700 rounded-full flex items-center justify-center">
                                         <svg
                                             className="w-2 h-2 text-white"
                                             fill="currentColor"

@@ -89,6 +89,9 @@ const Login = () => {
                     </Link>
                 </div>
             </div>
+            <div>
+                <img src="" alt="" />
+            </div>
         </div>
     );
 };

@@ -72,8 +72,11 @@ const TeacherDashboard = () => {
                 <div className="mb-12 bg-red">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                         <div className="mb-6 lg:mb-0">
-                            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                                Welcome back, {user?.name && user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
+                            <h1 className="text-4xl font-bold text-gray-900 mb-2 mt-6">
+                                Welcome back,{" "}
+                                {user?.name &&
+                                    user.name.charAt(0).toUpperCase() +
+                                        user.name.slice(1).toLowerCase()}
                             </h1>
                             <p className="text-md text-gray-600">
                                 Manage your tests and track student performance
@@ -82,7 +85,7 @@ const TeacherDashboard = () => {
 
                         <Link
                             to="/teacher/create-test"
-                            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:from-blue-800 hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-800 hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
                         >
                             <PlusCircle size={20} className="mr-2" />
                             Create New Test
@@ -91,8 +94,8 @@ const TeacherDashboard = () => {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 border-t border-gray-200 pt-6 ">
-                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 border-t border-gray-200 pt-6  ">
+                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_1px_5px_rgba(0,0,0,0.25)] ">
                         <div className="flex items-center">
                             <div className="p-3 bg-blue-100 rounded-xl">
                                 <BookCheck className="w-6 h-6 text-blue-600" />
@@ -108,7 +111,7 @@ const TeacherDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm ">
+                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_1px_5px_rgba(0,0,0,0.25)] ">
                         <div className="flex items-center ">
                             <div className="p-3 bg-green-100 rounded-xl">
                                 <Users className="w-6 h-6 text-green-600" />
@@ -128,7 +131,7 @@ const TeacherDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm ">
+                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_1px_5px_rgba(0,0,0,0.25)]">
                         <div className="flex items-center">
                             <div className="p-3 bg-purple-100 rounded-xl">
                                 <Calendar className="w-6 h-6 text-purple-600" />
@@ -192,7 +195,7 @@ const TeacherDashboard = () => {
                                 {tests.map((test) => (
                                     <div
                                         key={test._id}
-                                        className="bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-200 overflow-hidden shadow-lg"
+                                        className="bg-white shadow-[0_1px_10px_rgba(0,0,0,0.25)]  rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-200 overflow-hidden "
                                     >
                                         {/* Header */}
                                         <div className="p-6 pb-4">
@@ -212,16 +215,12 @@ const TeacherDashboard = () => {
                                             </div>
 
                                             <div className="flex items-center gap-4 text-sm text-gray-600">
-                                                <div className="flex items-center border border-blue-200 p-2 rounded-md">
-                                                    <BookOpen
-                                                        size={16}
-                                                        className="mr-1.5 text-blue-500"
-                                                    />
-                                                    <span className="text-xl font-bold text-gray-500">
+                                                <div className="flex items-center p-2 rounded-md">
+                                                    <span className="text-2xl font-bold text-gray-500">
                                                         {test.subject}
                                                     </span>
                                                 </div>
-                                                <div className="flex items-center border border-red-400 rounded-full p-2">
+                                                <div className="flex items-center rounded-xl p-2 bg-red-300/30">
                                                     <Clock
                                                         size={16}
                                                         className="mr-1.5 text-green-500"
