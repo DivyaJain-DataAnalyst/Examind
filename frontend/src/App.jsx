@@ -3,14 +3,14 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Navigate,
+    // Navigate,
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./contexts/AuthContext";
 import { TeacherDashboard, CreateTest, EditTest } from "./pages/teacher";
 import { StudentDashboard, TakeTest, TestResults } from "./pages/student";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { Register, Login } from "./pages";
+import { Register, Login, Landing } from "./pages";
 
 function App() {
     return (
@@ -18,7 +18,7 @@ function App() {
             <Router>
                 {/* //changed */}
 
-                <div className="h-screen w-screen bg-gray-50">
+                <div className="min-h-screen w-full">
                     <Routes>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
@@ -75,10 +75,7 @@ function App() {
                         />
 
                         {/* Default Routes */}
-                        <Route
-                            path="/"
-                            element={<Navigate to="/login" replace />}
-                        />
+                        <Route path="/" element={<Landing />} />
                     </Routes>
                     <Toaster position="top-right" />
                 </div>
