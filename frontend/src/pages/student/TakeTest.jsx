@@ -18,7 +18,7 @@ const TakeTest = () => {
             try {
                 const testRes = await axios.get(`/api/student/tests/${testId}`);
                 const questionsRes = await axios.get(
-                    `/api/student/questions/${testId}`
+                    `/api/student/questions/${testId}`,
                 );
 
                 const testData = testRes.data.test;
@@ -91,10 +91,10 @@ const TakeTest = () => {
 
     if (loading)
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+            <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
                 <div className="text-center">
-                    <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mb-4"></div>
-                    <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <div className="mb-4 inline-block h-16 w-16 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600"></div>
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-2xl font-bold text-transparent">
                         Loading...
                     </div>
                 </div>
@@ -103,16 +103,16 @@ const TakeTest = () => {
 
     return (
         <div className="min-h-full bg-white">
-            <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-4 gap-6 ">
+            <div className="max-w-8xl mx-auto grid gap-6 p-6 md:grid-cols-4">
                 {/* Test Content */}
-                <div className="col-span-3 bg-gray-300/10 ">
-                    <div className="bg-blue-600/10 backdrop-blur-sm shadow-[0_2px_20px_rgba(0,0,0,0.25)]  border border-blue-400 rounded-2xl p-8 mb-6 ">
-                        <div className="flex justify-between items-center">
+                <div className="col-span-3 bg-gray-300/10">
+                    <div className="mb-6 rounded-2xl border border-blue-400 bg-blue-600/10 p-8 shadow-[0_2px_20px_rgba(0,0,0,0.25)] backdrop-blur-sm">
+                        <div className="flex items-center justify-between">
                             <div>
-                                <h1 className="text-3xl font-bold bg-blue-600 bg-clip-text text-transparent mb-2 text-shadow-lg">
+                                <h1 className="mb-2 bg-blue-600 bg-clip-text text-3xl font-bold text-transparent text-shadow-lg">
                                     {test.title}
                                 </h1>
-                                <p className="text-gray-600 text-lg">
+                                <p className="text-lg text-gray-600">
                                     {test.description}
                                 </p>
                             </div>
@@ -122,8 +122,8 @@ const TakeTest = () => {
                                         timeLeft > 300
                                             ? "text-green-500"
                                             : timeLeft > 120
-                                            ? "text-yellow-500"
-                                            : "text-red-500"
+                                              ? "text-yellow-500"
+                                              : "text-red-500"
                                     }`}
                                 >
                                     {Math.floor(timeLeft / 60)}:
@@ -149,26 +149,26 @@ const TakeTest = () => {
                                 }
                             >
                                 <div className="p-8">
-                                    <div className="flex items-start space-x-4 mb-6">
-                                        <div className="flex-shrink-0 w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
-                                            <span className="text-white font-bold text-sm">
+                                    <div className="mb-6 flex items-start space-x-4">
+                                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-blue-500">
+                                            <span className="text-sm font-bold text-white">
                                                 {index + 1}
                                             </span>
                                         </div>
-                                        <p className="font-semibold text-xl text-gray-800 leading-relaxed flex-1">
+                                        <p className="flex-1 text-xl leading-relaxed font-semibold text-gray-800">
                                             Q{index + 1}: {q.text}
                                         </p>
                                     </div>
 
                                     {q.type === "multiple-choice" && (
-                                        <div className="space-y-3 ml-14">
+                                        <div className="ml-14 space-y-3">
                                             {q.options.map((opt, idx) => (
                                                 <label
                                                     key={idx}
-                                                    className={`flex items-center space-x-4 p-4 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                                                    className={`flex cursor-pointer items-center space-x-4 rounded-xl border-2 p-4 transition-all duration-300 ${
                                                         answers[q.id] === opt.id
-                                                            ? "bg-blue-50 border-blue-300 shadow-md"
-                                                            : "bg-gray-50 border-gray-200 hover:bg-blue-25 hover:border-blue-200"
+                                                            ? "border-blue-300 bg-blue-50 shadow-md"
+                                                            : "hover:bg-blue-25 border-gray-200 bg-gray-50 hover:border-blue-200"
                                                     }`}
                                                 >
                                                     <div className="relative">
@@ -184,13 +184,13 @@ const TakeTest = () => {
                                                             onChange={() =>
                                                                 handleChange(
                                                                     q.id,
-                                                                    opt.id
+                                                                    opt.id,
                                                                 )
                                                             }
                                                             className="sr-only"
                                                         />
                                                         <div
-                                                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                                                            className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-all duration-200 ${
                                                                 answers[
                                                                     q.id
                                                                 ] === opt.id
@@ -200,11 +200,11 @@ const TakeTest = () => {
                                                         >
                                                             {answers[q.id] ===
                                                                 opt.id && (
-                                                                <div className="w-2 h-2 bg-white rounded-full"></div>
+                                                                <div className="h-2 w-2 rounded-full bg-white"></div>
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <span className="text-gray-700 font-medium flex-1">
+                                                    <span className="flex-1 font-medium text-gray-700">
                                                         {opt.text}
                                                     </span>
                                                 </label>
@@ -216,13 +216,13 @@ const TakeTest = () => {
                                         <div className="ml-14">
                                             <input
                                                 type="number"
-                                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 outline-none transition-all duration-300 text-lg"
+                                                className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-lg transition-all duration-300 outline-none focus:border-blue-500 focus:ring-0"
                                                 placeholder="Enter your answer..."
                                                 value={answers[q.id] || ""}
                                                 onChange={(e) =>
                                                     handleChange(
                                                         q.id,
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                             />
@@ -233,13 +233,13 @@ const TakeTest = () => {
                         ))}
                     </div>
 
-                    <div className="text-center mt-8">
+                    <div className="mt-8 text-center">
                         <button
-                            className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-bold text-lg rounded-2xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                            className="inline-flex transform items-center rounded-2xl bg-blue-600 px-8 py-4 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                             onClick={handleSubmitTest}
                         >
                             <svg
-                                className="w-5 h-5 mr-2"
+                                className="mr-2 h-5 w-5"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -257,22 +257,22 @@ const TakeTest = () => {
                 </div>
 
                 {/* Question Navigator */}
-                <div className="col-span-1 shadow-[0_1px_10px_rgba(0,0,0,0.25)]  bg-white/80 p-6 rounded-2xl sticky top-6 h-fit">
-                    <h2 className="font-bold text-3xl mb-6 text-center bg-blue-600 bg-clip-text text-transparent text-shadow-lg">
+                <div className="sticky top-6 col-span-1 h-fit rounded-2xl bg-white/80 p-6 shadow-[0_1px_10px_rgba(0,0,0,0.25)]">
+                    <h2 className="mb-6 bg-blue-600 bg-clip-text text-center text-3xl font-bold text-transparent text-shadow-lg">
                         Questions
                     </h2>
 
                     {/* Progress Bar */}
                     <div className="mb-6">
-                        <div className="flex justify-between text-sm font-medium text-gray-600 mb-2">
+                        <div className="mb-2 flex justify-between text-sm font-medium text-gray-600">
                             <span>Progress</span>
                             <span>
                                 {Object.keys(answers).length}/{questions.length}
                             </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="h-2 w-full rounded-full bg-gray-200">
                             <div
-                                className="h-2 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full transition-all duration-500"
+                                className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-800 transition-all duration-500"
                                 style={{
                                     width: `${
                                         questions.length > 0
@@ -294,19 +294,18 @@ const TakeTest = () => {
                                 onDoubleClick={() =>
                                     handleQuestionDoubleClick(q.id)
                                 }
-                                className={`relative w-12 h-12 rounded-xl font-bold text-sm transition-all duration-300 transform hover:scale-110 
-                  ${
-                      answers[q.id]
-                          ? "bg-green-500 text-white"
-                          : "bg-white border-2 border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50"
-                  }`}
+                                className={`relative h-12 w-12 transform rounded-xl text-sm font-bold transition-all duration-300 hover:scale-110 ${
+                                    answers[q.id]
+                                        ? "bg-green-500 text-white"
+                                        : "border-2 border-gray-200 bg-white text-gray-600 hover:border-blue-300 hover:bg-blue-50"
+                                }`}
                                 title="Double-click to clear answer"
                             >
                                 {index + 1}
                                 {answers[q.id] && (
-                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-700 rounded-full flex items-center justify-center">
+                                    <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-700">
                                         <svg
-                                            className="w-2 h-2 text-white"
+                                            className="h-2 w-2 text-white"
                                             fill="currentColor"
                                             viewBox="0 0 20 20"
                                         >

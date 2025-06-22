@@ -48,19 +48,19 @@ const StudentDashboard = () => {
         const end = new Date(test.endTime);
         if (now >= start && now <= end) {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
                     Available Now
                 </span>
             );
         } else if (now < start) {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                     Upcoming
                 </span>
             );
         } else {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                     Closed
                 </span>
             );
@@ -81,60 +81,60 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="bg-slate-50 h-fit w-full p-4">
+        <div className="h-fit w-full bg-slate-50 p-4">
             <Navbar title="Student Dashboard" />
 
-            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="max-w-8xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
                 {/* Welcome user */}
                 <div className="my-8 pt-8">
-                    <h1 className="text-4xl mt-4 font-bold text-gray-900">
+                    <h1 className="mt-4 text-4xl font-bold text-gray-900">
                         Welcome,{" "}
                         {currentUser?.name &&
                             currentUser.name.charAt(0).toUpperCase() +
                                 currentUser.name.slice(1).toLowerCase()}
                     </h1>
-                    <p className="text-gray-600 mt-1">
+                    <p className="mt-1 text-gray-600">
                         View your upcoming and available tests
                     </p>
                 </div>
                 {/* Divider */}
-                <div className="w-full h-1 bg-linear-to-r from-gray-700 to-white rounded" />
+                <div className="h-1 w-full rounded bg-linear-to-r from-gray-700 to-white" />
                 {isLoading ? (
-                    <div className="text-center py-8 bg-white shadow rounded-lg">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
+                    <div className="rounded-lg bg-white py-8 text-center shadow">
+                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
                         <p className="mt-2 text-gray-600">Loading tests...</p>
                     </div>
                 ) : (
                     <>
                         {/* Available Tests */}
-                        <div className="rounded-lg mb-8 mt-20">
-                            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                        <div className="mt-20 mb-8 rounded-lg">
+                            <h2 className="mb-4 text-3xl font-bold text-gray-900">
                                 Available Tests
                             </h2>
                             {tests.filter(isAvailable).length === 0 ? (
-                                <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+                                <div className="rounded-lg border-2 border-dashed border-gray-300 py-8 text-center">
                                     <p className="text-gray-500">
                                         No tests available right now.
                                     </p>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+                                <div className="grid grid-cols-1 gap-6 pt-4 md:grid-cols-2 lg:grid-cols-3">
                                     {tests.filter(isAvailable).map((test) => (
                                         <div
                                             key={test._id}
-                                            className="bg-white border border-gray-300 rounded-lg shadow-[0_1px_5px_rgba(0,0,0,0.2)] hover:shadow-md"
+                                            className="rounded-lg border border-gray-300 bg-white shadow-[0_1px_5px_rgba(0,0,0,0.2)] hover:shadow-md"
                                         >
-                                            <div className="p-5 hover:shadow-lg transition-shadow duration-200">
-                                                <div className="flex justify-between items-start mb-3">
+                                            <div className="p-5 transition-shadow duration-200 hover:shadow-lg">
+                                                <div className="mb-3 flex items-start justify-between">
                                                     <h3 className="text-xl font-semibold text-gray-900">
                                                         {test.title}
                                                     </h3>
                                                     {getStatusBadge(test)}
                                                 </div>
-                                                <p className="text-gray-600 text-sm mb-3">
+                                                <p className="mb-3 text-sm text-gray-600">
                                                     {test.subject}
                                                 </p>
-                                                <div className="flex items-center text-sm text-gray-500 mb-2">
+                                                <div className="mb-2 flex items-center text-sm text-gray-500">
                                                     <Clock
                                                         size={16}
                                                         className="mr-1 text-green-600"
@@ -143,26 +143,26 @@ const StudentDashboard = () => {
                                                         {test.duration} minutes
                                                     </span>
                                                 </div>
-                                                <div className="text-sm font-medium text-gray-500 mb-4">
+                                                <div className="mb-4 text-sm font-medium text-gray-500">
                                                     <div>
                                                         Ends:{" "}
                                                         {formatDate(
-                                                            test.endTime
+                                                            test.endTime,
                                                         )}
                                                     </div>
                                                 </div>
-                                                <div className="pt-2 border-t border-gray-100">
+                                                <div className="border-t border-gray-100 pt-2">
                                                     {hasAttempted(test._id) ? (
                                                         <Link
                                                             to={`/student/results/${test._id}`}
-                                                            className="w-full inline-flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                                                            className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
                                                         >
                                                             View Results
                                                         </Link>
                                                     ) : (
                                                         <Link
                                                             to={`/student/take-test/${test._id}`}
-                                                            className="w-full inline-flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md hover:scale-103 transition-transform duration-400"
+                                                            className="inline-flex w-full items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition-transform duration-400 hover:scale-103 hover:bg-green-700"
                                                         >
                                                             <Bookmark
                                                                 size={16}
@@ -180,34 +180,34 @@ const StudentDashboard = () => {
                         </div>
 
                         {/* Upcoming Tests */}
-                        <div className="bg-white rounded-lg p-6 mb-8 shadow-[0_1px_10px_rgba(0,0,0,0.25)] ">
-                            <h2 className="text-2xl font-medium text-gray-900 mb-4">
+                        <div className="mb-8 rounded-lg bg-white p-6 shadow-[0_1px_10px_rgba(0,0,0,0.25)]">
+                            <h2 className="mb-4 text-2xl font-medium text-gray-900">
                                 Upcoming Tests
                             </h2>
                             {tests.filter(isUpcoming).length === 0 ? (
-                                <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+                                <div className="rounded-lg border-2 border-dashed border-gray-300 py-8 text-center">
                                     <p className="text-gray-500">
                                         No upcoming tests scheduled.
                                     </p>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 border-t border-gray-400 pt-4">
+                                <div className="grid grid-cols-1 gap-6 border-t border-gray-400 pt-4 md:grid-cols-2 lg:grid-cols-3">
                                     {tests.filter(isUpcoming).map((test) => (
                                         <div
                                             key={test._id}
-                                            className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 "
+                                            className="rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-lg"
                                         >
                                             <div className="p-5">
-                                                <div className="flex justify-between items-start mb-3">
+                                                <div className="mb-3 flex items-start justify-between">
                                                     <h3 className="text-xl font-semibold text-gray-900">
                                                         {test.title}
                                                     </h3>
                                                     {getStatusBadge(test)}
                                                 </div>
-                                                <p className="text-gray-600 text-sm mb-3">
+                                                <p className="mb-3 text-sm text-gray-600">
                                                     {test.subject}
                                                 </p>
-                                                <div className="flex items-center text-sm text-gray-500 mb-2">
+                                                <div className="mb-2 flex items-center text-sm text-gray-500">
                                                     <Clock
                                                         size={16}
                                                         className="mr-1"
@@ -216,7 +216,7 @@ const StudentDashboard = () => {
                                                         {test.duration} minutes
                                                     </span>
                                                 </div>
-                                                <div className="flex items-center text-sm text-gray-500 mb-4">
+                                                <div className="mb-4 flex items-center text-sm text-gray-500">
                                                     <Calendar
                                                         size={16}
                                                         className="mr-1"
@@ -224,7 +224,7 @@ const StudentDashboard = () => {
                                                     <span>
                                                         Starts:{" "}
                                                         {formatDate(
-                                                            test.startTime
+                                                            test.startTime,
                                                         )}
                                                     </span>
                                                 </div>

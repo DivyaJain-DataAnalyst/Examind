@@ -52,7 +52,7 @@ const TestResults = () => {
                 } else {
                     // Otherwise, fetch from mock data
                     const attempt = mockTestAttempts.find(
-                        (a) => a.testId === testId
+                        (a) => a.testId === testId,
                     );
 
                     if (attempt) {
@@ -112,7 +112,7 @@ const TestResults = () => {
 
         if (question.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
             const option = question.options.find(
-                (opt) => opt.id === answers[question.id]
+                (opt) => opt.id === answers[question.id],
             );
             return option
                 ? `${answers[question.id].toUpperCase()}. ${option.text}`
@@ -125,7 +125,7 @@ const TestResults = () => {
     const getCorrectAnswerLabel = (question) => {
         if (question.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
             const option = question.options.find(
-                (opt) => opt.id === question.correctAnswer
+                (opt) => opt.id === question.correctAnswer,
             );
             return option
                 ? `${question.correctAnswer.toUpperCase()}. ${option.text}`
@@ -164,9 +164,9 @@ const TestResults = () => {
         return (
             <div className="min-h-screen bg-gray-50">
                 <Navbar title="Test Results" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div className="text-center py-12">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
+                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+                    <div className="py-12 text-center">
+                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
                         <p className="mt-2 text-gray-600">Loading results...</p>
                     </div>
                 </div>
@@ -176,10 +176,10 @@ const TestResults = () => {
 
     return (
         //changed
-        <div className="w-screen h-screen bg-gray-50">
+        <div className="h-screen w-screen bg-gray-50">
             <Navbar title="Test Results" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
                 <div className="mb-6">
                     <button
                         onClick={() => navigate("/student")}
@@ -188,27 +188,27 @@ const TestResults = () => {
                         <ChevronLeft size={16} className="mr-1" />
                         Back to Dashboard
                     </button>
-                    <h1 className="text-2xl font-bold text-gray-900 mt-2">
+                    <h1 className="mt-2 text-2xl font-bold text-gray-900">
                         Results: {test?.title}
                     </h1>
                 </div>
 
-                <div className="bg-white shadow rounded-lg p-6 mb-8 fade-in">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div className="bg-blue-50 p-6 rounded-lg text-center">
-                            <h2 className="text-lg font-medium text-gray-900 mb-2">
+                <div className="fade-in mb-8 rounded-lg bg-white p-6 shadow">
+                    <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+                        <div className="rounded-lg bg-blue-50 p-6 text-center">
+                            <h2 className="mb-2 text-lg font-medium text-gray-900">
                                 Score
                             </h2>
                             <div className="text-3xl font-bold text-blue-600">
                                 {score} / {totalPoints}
                             </div>
-                            <div className="text-sm text-gray-600 mt-1">
+                            <div className="mt-1 text-sm text-gray-600">
                                 {getScorePercentage()}%
                             </div>
                         </div>
 
-                        <div className="bg-gray-50 p-6 rounded-lg text-center">
-                            <h2 className="text-lg font-medium text-gray-900 mb-2">
+                        <div className="rounded-lg bg-gray-50 p-6 text-center">
+                            <h2 className="mb-2 text-lg font-medium text-gray-900">
                                 Grade
                             </h2>
                             <div
@@ -216,32 +216,32 @@ const TestResults = () => {
                             >
                                 {getGrade()}
                             </div>
-                            <div className="text-sm text-gray-600 mt-1">
+                            <div className="mt-1 text-sm text-gray-600">
                                 {getScorePercentage() >= 60
                                     ? "Passed"
                                     : "Failed"}
                             </div>
                         </div>
 
-                        <div className="bg-gray-50 p-6 rounded-lg text-center">
-                            <h2 className="text-lg font-medium text-gray-900 mb-2">
+                        <div className="rounded-lg bg-gray-50 p-6 text-center">
+                            <h2 className="mb-2 text-lg font-medium text-gray-900">
                                 Questions
                             </h2>
                             <div className="text-3xl font-bold text-gray-700">
                                 {
                                     Object.values(answers).filter(
-                                        (a) => a !== ""
+                                        (a) => a !== "",
                                     ).length
                                 }{" "}
                                 / {questions.length}
                             </div>
-                            <div className="text-sm text-gray-600 mt-1">
+                            <div className="mt-1 text-sm text-gray-600">
                                 Attempted
                             </div>
                         </div>
                     </div>
 
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    <h2 className="mb-4 text-xl font-semibold text-gray-900">
                         Question Review
                     </h2>
 
@@ -249,15 +249,15 @@ const TestResults = () => {
                         {questions.map((question, index) => (
                             <div
                                 key={question.id}
-                                className={`p-6 rounded-lg border ${
+                                className={`rounded-lg border p-6 ${
                                     isAnswerCorrect(question)
-                                        ? "bg-green-50 border-green-200"
+                                        ? "border-green-200 bg-green-50"
                                         : answers[question.id]
-                                        ? "bg-red-50 border-red-200"
-                                        : "bg-gray-50 border-gray-200"
+                                          ? "border-red-200 bg-red-50"
+                                          : "border-gray-200 bg-gray-50"
                                 }`}
                             >
-                                <div className="flex items-start justify-between mb-4">
+                                <div className="mb-4 flex items-start justify-between">
                                     <h3 className="text-lg font-medium text-gray-900">
                                         Question {index + 1}
                                     </h3>
@@ -309,24 +309,24 @@ const TestResults = () => {
                                             <img
                                                 src={question.imageUrl}
                                                 alt="Question"
-                                                className="max-h-48 object-contain bg-white border rounded-md"
+                                                className="max-h-48 rounded-md border bg-white object-contain"
                                             />
                                         </div>
                                     )}
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <p className="text-sm font-medium text-gray-700 mb-1">
+                                        <p className="mb-1 text-sm font-medium text-gray-700">
                                             Your Answer:
                                         </p>
                                         <div
-                                            className={`p-3 rounded-md ${
+                                            className={`rounded-md p-3 ${
                                                 !answers[question.id]
                                                     ? "bg-gray-100 text-gray-500 italic"
                                                     : isAnswerCorrect(question)
-                                                    ? "bg-green-100 text-green-800"
-                                                    : "bg-red-100 text-red-800"
+                                                      ? "bg-green-100 text-green-800"
+                                                      : "bg-red-100 text-red-800"
                                             }`}
                                         >
                                             {answers[question.id]
@@ -336,10 +336,10 @@ const TestResults = () => {
                                     </div>
 
                                     <div>
-                                        <p className="text-sm font-medium text-gray-700 mb-1">
+                                        <p className="mb-1 text-sm font-medium text-gray-700">
                                             Correct Answer:
                                         </p>
-                                        <div className="p-3 rounded-md bg-green-100 text-green-800">
+                                        <div className="rounded-md bg-green-100 p-3 text-green-800">
                                             {getCorrectAnswerLabel(question)}
                                         </div>
                                     </div>

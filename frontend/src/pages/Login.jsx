@@ -28,8 +28,8 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center py-12 px-4 gap-30 bg-white ">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-[0_1px_10px_rgba(0,0,0,0.25)] p-8 space-y-6 animate-fade-in border border-gray-300">
+        <div className="flex min-h-screen items-center justify-center gap-30 bg-white px-4 py-12">
+            <div className="animate-fade-in w-full max-w-md space-y-6 rounded-2xl border border-gray-300 bg-white p-8 shadow-[0_1px_10px_rgba(0,0,0,0.25)]">
                 <div className="flex flex-col items-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -41,16 +41,16 @@ const Login = () => {
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="lucide lucide-square-user w-16 h-24 text-blue-800 mb-2"
+                        className="lucide lucide-square-user mb-2 h-24 w-16 text-blue-800"
                     >
                         <rect width="18" height="18" x="3" y="3" rx="2" />
                         <circle cx="12" cy="10" r="3" />
                         <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
                     </svg>
-                    <h2 className="text-3xl font-extrabold text-black mb-2">
+                    <h2 className="mb-2 text-3xl font-extrabold text-black">
                         Sign In to Your Account
                     </h2>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-sm text-gray-500">
                         Welcome back! Please login to continue.
                     </p>
                 </div>
@@ -60,7 +60,7 @@ const Login = () => {
                         placeholder="Email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         required
                     />
                     <input
@@ -68,22 +68,22 @@ const Login = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         required
                     />
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:shadow-xl shadow-lg hover:bg-blue-700 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-lg transition duration-150 hover:bg-blue-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {isLoading ? "Signing in..." : "Sign In"}
                     </button>
                 </form>
-                <div className="text-center text-gray-500 text-sm">
+                <div className="text-center text-sm text-gray-500">
                     Don&apos;t have an account?{" "}
                     <Link
                         to="/register"
-                        className="text-blue-600 hover:underline font-medium"
+                        className="font-medium text-blue-600 hover:underline"
                     >
                         Create Account
                     </Link>
@@ -94,7 +94,7 @@ const Login = () => {
                 <img
                     src="../images/login.png"
                     alt="login"
-                    className="w-196 h-172"
+                    className="h-172 w-196"
                 />
             </div>
         </div>

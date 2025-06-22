@@ -61,7 +61,7 @@ const CreateTest = () => {
     const handleOptionChange = (questionIndex, optionId, value) => {
         const updatedQuestions = [...questions];
         const optionIndex = updatedQuestions[questionIndex].options.findIndex(
-            (opt) => opt.id === optionId
+            (opt) => opt.id === optionId,
         );
 
         if (optionIndex !== -1) {
@@ -182,26 +182,26 @@ const CreateTest = () => {
         <div className="min-h-screen w-screen from-slate-50 p-12">
             <Navbar title="Create New Test" />
 
-            <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
                 {/* Header Section */}
                 <div className="mb-8">
                     <button
                         onClick={() => navigate("/teacher")}
-                        className="group inline-flex items-center px-4 py-2 bg-white/80 border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 hover:border-transparent shadow-lg hover:shadow-xl transform mb-6"
+                        className="group mb-6 inline-flex transform items-center rounded-full border-2 border-indigo-200 bg-white/80 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-lg hover:border-transparent hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 hover:text-white hover:shadow-xl"
                     >
                         <ChevronLeft
                             size={18}
-                            className="mr-2 group-hover:-translate-x-1 transition-transform duration-300"
+                            className="mr-2 transition-transform duration-300 group-hover:-translate-x-1"
                         />
                         <span>Back to Dashboard</span>
-                        <div className="ml-2 w-2 h-2 bg-blue-400 rounded-full group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
+                        <div className="ml-2 h-2 w-2 rounded-full bg-blue-400 transition-all duration-300 group-hover:animate-pulse group-hover:opacity-100"></div>
                     </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                     {/* Test Details Card */}
-                    <div className="bg-white/70 shadow-sm rounded-md border border-gray-200 overflow-hidden">
-                        <div className=" bg-blue-700/90 px-6 py-4">
+                    <div className="overflow-hidden rounded-md border border-gray-200 bg-white/70 shadow-sm">
+                        <div className="bg-blue-700/90 px-6 py-4">
                             <div className="flex items-center space-x-2">
                                 <Settings className="h-5 w-5 text-white" />
                                 <h2 className="text-lg font-semibold text-white">
@@ -211,12 +211,12 @@ const CreateTest = () => {
                         </div>
 
                         <div className="p-8">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                                 <div className="space-y-6">
                                     <div className="group">
                                         <label
                                             htmlFor="title"
-                                            className="block text-sm font-semibold text-gray-700 mb-2"
+                                            className="mb-2 block text-sm font-semibold text-gray-700"
                                         >
                                             Test Title*
                                         </label>
@@ -226,7 +226,7 @@ const CreateTest = () => {
                                             name="title"
                                             value={testDetails.title}
                                             onChange={handleTestDetailsChange}
-                                            className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                            className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                             placeholder="e.g., Midterm Physics Exam"
                                             required
                                         />
@@ -235,7 +235,7 @@ const CreateTest = () => {
                                     <div className="group">
                                         <label
                                             htmlFor="subject"
-                                            className="block text-sm font-semibold text-gray-700 mb-2"
+                                            className="mb-2 block text-sm font-semibold text-gray-700"
                                         >
                                             Subject*
                                         </label>
@@ -245,7 +245,7 @@ const CreateTest = () => {
                                             name="subject"
                                             value={testDetails.subject}
                                             onChange={handleTestDetailsChange}
-                                            className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                            className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                             placeholder="e.g., Physics"
                                             required
                                         />
@@ -254,9 +254,9 @@ const CreateTest = () => {
                                     <div className="group">
                                         <label
                                             htmlFor="duration"
-                                            className="block text-sm font-semibold text-gray-700 mb-2"
+                                            className="mb-2 block text-sm font-semibold text-gray-700"
                                         >
-                                            <Clock className="inline h-4 w-4 mr-1" />
+                                            <Clock className="mr-1 inline h-4 w-4" />
                                             Duration (minutes)*
                                         </label>
                                         <input
@@ -266,7 +266,7 @@ const CreateTest = () => {
                                             value={testDetails.duration}
                                             onChange={handleTestDetailsChange}
                                             min={5}
-                                            className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                            className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                             required
                                         />
                                     </div>
@@ -276,7 +276,7 @@ const CreateTest = () => {
                                     <div className="group">
                                         <label
                                             htmlFor="description"
-                                            className="block text-sm font-semibold text-gray-700 mb-2"
+                                            className="mb-2 block text-sm font-semibold text-gray-700"
                                         >
                                             Description
                                         </label>
@@ -286,7 +286,7 @@ const CreateTest = () => {
                                             value={testDetails.description}
                                             onChange={handleTestDetailsChange}
                                             rows={4}
-                                            className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50 resize-none"
+                                            className="block w-full resize-none rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                             placeholder="Provide a brief description of the test"
                                         />
                                     </div>
@@ -295,9 +295,9 @@ const CreateTest = () => {
                                         <div className="group">
                                             <label
                                                 htmlFor="startTime"
-                                                className="block text-sm font-semibold text-gray-700 mb-2"
+                                                className="mb-2 block text-sm font-semibold text-gray-700"
                                             >
-                                                <Calendar className="inline h-4 w-4 mr-1" />
+                                                <Calendar className="mr-1 inline h-4 w-4" />
                                                 Start Date & Time*
                                             </label>
                                             <input
@@ -308,7 +308,7 @@ const CreateTest = () => {
                                                 onChange={
                                                     handleTestDetailsChange
                                                 }
-                                                className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                                className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                                 required
                                             />
                                         </div>
@@ -316,9 +316,9 @@ const CreateTest = () => {
                                         <div className="group">
                                             <label
                                                 htmlFor="endTime"
-                                                className="block text-sm font-semibold text-gray-700 mb-2"
+                                                className="mb-2 block text-sm font-semibold text-gray-700"
                                             >
-                                                <Calendar className="inline h-4 w-4 mr-1" />
+                                                <Calendar className="mr-1 inline h-4 w-4" />
                                                 End Date & Time*
                                             </label>
                                             <input
@@ -329,7 +329,7 @@ const CreateTest = () => {
                                                 onChange={
                                                     handleTestDetailsChange
                                                 }
-                                                className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                                className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                                 required
                                             />
                                         </div>
@@ -342,7 +342,7 @@ const CreateTest = () => {
                     {/* Questions Section */}
                     <div className="space-y-6">
                         <div className="flex items-center space-x-3">
-                            <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full">
+                            <div className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 p-2">
                                 <BookMarked className="h-6 w-6 text-white" />
                             </div>
                             <h2 className="text-2xl font-bold text-gray-900">
@@ -352,12 +352,12 @@ const CreateTest = () => {
 
                         {questions.map((question, index) => (
                             <div key={question.id}>
-                                <div className="bg-white/70 shadow-sm rounded-md border border-gray-300 overflow-hidden ">
+                                <div className="overflow-hidden rounded-md border border-gray-300 bg-white/70 shadow-sm">
                                     <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center space-x-3">
-                                                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                                                    <span className="text-white font-bold text-sm">
+                                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+                                                    <span className="text-sm font-bold text-white">
                                                         {index + 1}
                                                     </span>
                                                 </div>
@@ -370,7 +370,7 @@ const CreateTest = () => {
                                                 onClick={() =>
                                                     removeQuestion(index)
                                                 }
-                                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-300 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-colors duration-200"
+                                                className="inline-flex items-center rounded-lg bg-red-500/20 px-3 py-2 text-sm font-medium text-red-300 transition-colors duration-200 hover:bg-red-500/30"
                                             >
                                                 <Trash2
                                                     size={16}
@@ -381,9 +381,9 @@ const CreateTest = () => {
                                         </div>
                                     </div>
 
-                                    <div className="p-8 space-y-6">
+                                    <div className="space-y-6 p-8">
                                         <div className="group">
-                                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                            <label className="mb-2 block text-sm font-semibold text-gray-700">
                                                 Question Text*
                                             </label>
                                             <textarea
@@ -392,23 +392,23 @@ const CreateTest = () => {
                                                     handleQuestionChange(
                                                         index,
                                                         "text",
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 rows={3}
-                                                className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50 resize-none"
+                                                className="block w-full resize-none rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                                 placeholder="Enter your question here"
                                                 required
                                             />
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                             <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                                <label className="mb-3 block text-sm font-semibold text-gray-700">
                                                     Question Type*
                                                 </label>
                                                 <div className="flex space-x-4">
-                                                    <label className="flex items-center p-3 bg-white/60 rounded-xl border-2 border-gray-200 cursor-pointer hover:bg-white/80 transition-colors duration-200">
+                                                    <label className="flex cursor-pointer items-center rounded-xl border-2 border-gray-200 bg-white/60 p-3 transition-colors duration-200 hover:bg-white/80">
                                                         <input
                                                             type="radio"
                                                             checked={
@@ -418,16 +418,16 @@ const CreateTest = () => {
                                                             onChange={() =>
                                                                 handleTypeChange(
                                                                     index,
-                                                                    QUESTION_TYPES.MULTIPLE_CHOICE
+                                                                    QUESTION_TYPES.MULTIPLE_CHOICE,
                                                                 )
                                                             }
-                                                            className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                                                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                         />
                                                         <span className="ml-3 text-sm font-medium text-gray-700">
                                                             Multiple Choice
                                                         </span>
                                                     </label>
-                                                    <label className="flex items-center p-3 bg-white/60 rounded-xl border-2 border-gray-200 cursor-pointer hover:bg-white/80 transition-colors duration-200">
+                                                    <label className="flex cursor-pointer items-center rounded-xl border-2 border-gray-200 bg-white/60 p-3 transition-colors duration-200 hover:bg-white/80">
                                                         <input
                                                             type="radio"
                                                             checked={
@@ -437,10 +437,10 @@ const CreateTest = () => {
                                                             onChange={() =>
                                                                 handleTypeChange(
                                                                     index,
-                                                                    QUESTION_TYPES.NUMERICAL
+                                                                    QUESTION_TYPES.NUMERICAL,
                                                                 )
                                                             }
-                                                            className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                                                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                         />
                                                         <span className="ml-3 text-sm font-medium text-gray-700">
                                                             Numerical
@@ -450,7 +450,7 @@ const CreateTest = () => {
                                             </div>
 
                                             <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                                <label className="mb-2 block text-sm font-semibold text-gray-700">
                                                     Points
                                                 </label>
                                                 <input
@@ -462,22 +462,22 @@ const CreateTest = () => {
                                                             "points",
                                                             parseInt(
                                                                 e.target.value,
-                                                                10
-                                                            )
+                                                                10,
+                                                            ),
                                                         )
                                                     }
                                                     min={1}
-                                                    className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                                    className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                            <label className="mb-3 block text-sm font-semibold text-gray-700">
                                                 Image (Optional)
                                             </label>
                                             <div className="flex items-center space-x-4">
-                                                <label className="cursor-pointer inline-flex items-center px-4 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-md hover:from-blue-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200">
+                                                <label className="inline-flex transform cursor-pointer items-center rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-md transition-all duration-200 hover:scale-105 hover:from-blue-600 hover:to-indigo-700">
                                                     <Image
                                                         size={18}
                                                         className="mr-2"
@@ -490,23 +490,23 @@ const CreateTest = () => {
                                                         onChange={(e) =>
                                                             handleImageUpload(
                                                                 index,
-                                                                e
+                                                                e,
                                                             )
                                                         }
                                                     />
                                                 </label>
                                                 {question.imageUrl && (
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
                                                         ✓ Image uploaded
                                                     </span>
                                                 )}
                                             </div>
                                             {question.imageUrl && (
-                                                <div className="mt-4 p-4 bg-white/60 rounded-xl border-2 border-gray-200">
+                                                <div className="mt-4 rounded-xl border-2 border-gray-200 bg-white/60 p-4">
                                                     <img
                                                         src={question.imageUrl}
                                                         alt="Question"
-                                                        className="h-40 object-contain mx-auto rounded-lg shadow-md"
+                                                        className="mx-auto h-40 rounded-lg object-contain shadow-md"
                                                     />
                                                 </div>
                                             )}
@@ -515,7 +515,7 @@ const CreateTest = () => {
                                         {question.type ===
                                             QUESTION_TYPES.MULTIPLE_CHOICE && (
                                             <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                                <label className="mb-3 block text-sm font-semibold text-gray-700">
                                                     Options*
                                                 </label>
                                                 <div className="space-y-3">
@@ -523,9 +523,9 @@ const CreateTest = () => {
                                                         (option) => (
                                                             <div
                                                                 key={option.id}
-                                                                className="flex items-center space-x-3 p-3 bg-white/60"
+                                                                className="flex items-center space-x-3 bg-white/60 p-3"
                                                             >
-                                                                <label className="inline-flex items-center cursor-pointer">
+                                                                <label className="inline-flex cursor-pointer items-center">
                                                                     <input
                                                                         type="radio"
                                                                         name={`question_${question.id}_correct`}
@@ -536,10 +536,10 @@ const CreateTest = () => {
                                                                         onChange={() =>
                                                                             handleCorrectAnswerChange(
                                                                                 index,
-                                                                                option.id
+                                                                                option.id,
                                                                             )
                                                                         }
-                                                                        className="w-4 h-4 text-green-600 border-gray-300 focus:ring-green-500"
+                                                                        className="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500"
                                                                     />
                                                                     <span className="ml-2 w-6 text-sm font-bold text-gray-700">
                                                                         {option.id.toUpperCase()}
@@ -552,25 +552,25 @@ const CreateTest = () => {
                                                                         option.text
                                                                     }
                                                                     onChange={(
-                                                                        e
+                                                                        e,
                                                                     ) =>
                                                                         handleOptionChange(
                                                                             index,
                                                                             option.id,
                                                                             e
                                                                                 .target
-                                                                                .value
+                                                                                .value,
                                                                         )
                                                                     }
-                                                                    className="flex-1 px-3 py-2 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200"
+                                                                    className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                                                     placeholder={`Option ${option.id.toUpperCase()}`}
                                                                     required
                                                                 />
                                                             </div>
-                                                        )
+                                                        ),
                                                     )}
                                                 </div>
-                                                <div className="mt-2 text-sm text-gray-500 bg-blue-50 p-3 rounded-lg">
+                                                <div className="mt-2 rounded-lg bg-blue-50 p-3 text-sm text-gray-500">
                                                     💡 Select the radio button
                                                     next to the correct answer
                                                 </div>
@@ -581,7 +581,7 @@ const CreateTest = () => {
                                             QUESTION_TYPES.NUMERICAL && (
                                             <div className="space-y-4">
                                                 <div>
-                                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                                    <label className="mb-2 block text-sm font-semibold text-gray-700">
                                                         Correct Answer*
                                                     </label>
                                                     <input
@@ -592,17 +592,17 @@ const CreateTest = () => {
                                                         onChange={(e) =>
                                                             handleCorrectAnswerChange(
                                                                 index,
-                                                                e.target.value
+                                                                e.target.value,
                                                             )
                                                         }
-                                                        className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                                        className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                                         placeholder="e.g., 3.14"
                                                         required
                                                     />
                                                 </div>
 
                                                 <div>
-                                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                                    <label className="mb-2 block text-sm font-semibold text-gray-700">
                                                         Tolerance (±)
                                                     </label>
                                                     <input
@@ -617,16 +617,16 @@ const CreateTest = () => {
                                                                 "tolerance",
                                                                 parseFloat(
                                                                     e.target
-                                                                        .value
-                                                                )
+                                                                        .value,
+                                                                ),
                                                             )
                                                         }
                                                         step="0.01"
                                                         min="0"
-                                                        className="block w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-0 transition-colors duration-200 bg-white/50"
+                                                        className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:border-indigo-500 focus:ring-0"
                                                         placeholder="e.g., 0.01"
                                                     />
-                                                    <div className="mt-2 text-sm text-gray-500 bg-yellow-50 p-3 rounded-lg">
+                                                    <div className="mt-2 rounded-lg bg-yellow-50 p-3 text-sm text-gray-500">
                                                         ⚡ Tolerance allows
                                                         slightly different
                                                         answers to be marked as
@@ -640,11 +640,11 @@ const CreateTest = () => {
                                 </div>
 
                                 {/* Add Question Button - Now appears after each question */}
-                                <div className="flex justify-center mt-4">
+                                <div className="mt-4 flex justify-center">
                                     <button
                                         type="button"
                                         onClick={addQuestion}
-                                        className="inline-flex items-center px-6 py-3 bg-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-200"
+                                        className="inline-flex transform items-center rounded-xl bg-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-emerald-600 hover:to-teal-700"
                                     >
                                         <Plus size={18} className="mr-2" />
                                         Add Question Below
@@ -659,13 +659,13 @@ const CreateTest = () => {
                         <button
                             type="button"
                             onClick={() => navigate("/teacher")}
-                            className="inline-flex items-center px-6 py-3 border-2 border-gray-300 font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
+                            className="inline-flex items-center rounded-xl border-2 border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-all duration-200 hover:border-gray-400 hover:bg-gray-50"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="inline-flex items-center px-8 py-3  bg-indigo-600 text-white font-bold rounded-xl shadow-lg hover:from-indigo-700 hover:scale-105 transition-all duration-200"
+                            className="inline-flex items-center rounded-xl bg-indigo-600 px-8 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-indigo-700"
                         >
                             <Save size={18} className="mr-2" />
                             Create Test
