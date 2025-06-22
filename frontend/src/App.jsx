@@ -1,3 +1,4 @@
+import "./App.css";
 import {
     BrowserRouter as Router,
     Routes,
@@ -6,21 +7,14 @@ import {
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./contexts/AuthContext";
-import Login from "./pages/Login";
-import TeacherDashboard from "./pages/teacher/TeacherDashboard.jsx";
-import CreateTest from "./pages/teacher/CreateTest";
-import EditTest from "./pages/teacher/EditTest";
-import StudentDashboard from "./pages/student/StudentDashboard";
-import TakeTest from "./pages/student/TakeTest";
-import TestResults from "./pages/student/TestResults";
+import { TeacherDashboard, CreateTest, EditTest } from "./pages/teacher";
+import { StudentDashboard, TakeTest, TestResults } from "./pages/student";
 import ProtectedRoute from "./components/ProtectedRoute";
-import "./App.css";
-import Register from "./pages/Register.jsx";
+import { Register, Login } from "./pages";
 
 function App() {
     return (
         <AuthProvider>
-            
             <Router>
                 {/* //changed */}
 

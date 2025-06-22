@@ -81,11 +81,12 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="h-fit w-full p-4">
+        <div className="bg-slate-50 h-fit w-full p-4">
             <Navbar title="Student Dashboard" />
 
             <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-8 pt-8">
+                {/* Welcome user */}
+                <div className="my-8 pt-8">
                     <h1 className="text-4xl mt-4 font-bold text-gray-900">
                         Welcome,{" "}
                         {currentUser?.name &&
@@ -96,7 +97,8 @@ const StudentDashboard = () => {
                         View your upcoming and available tests
                     </p>
                 </div>
-
+                {/* Divider */}
+                <div className="w-full h-1 bg-linear-to-r from-gray-700 to-white rounded" />
                 {isLoading ? (
                     <div className="text-center py-8 bg-white shadow rounded-lg">
                         <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
@@ -105,7 +107,7 @@ const StudentDashboard = () => {
                 ) : (
                     <>
                         {/* Available Tests */}
-                        <div className="bg-white rounded-lg p-6 mb-8 border border-gray-300 shadow-[0_1px_10px_rgba(0,0,0,0.25)] ">
+                        <div className="rounded-lg mb-8 mt-20">
                             <h2 className="text-3xl font-bold text-gray-900 mb-4">
                                 Available Tests
                             </h2>
@@ -116,11 +118,11 @@ const StudentDashboard = () => {
                                     </p>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 border-t border-gray-300 pt-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
                                     {tests.filter(isAvailable).map((test) => (
                                         <div
                                             key={test._id}
-                                            className="bg-white border border-gray-300 rounded-lg shadow-[0_1px_10px_rgba(0,0,0,0.25)] hover:shadow-md"
+                                            className="bg-white border border-gray-300 rounded-lg shadow-[0_1px_5px_rgba(0,0,0,0.2)] hover:shadow-md"
                                         >
                                             <div className="p-5 hover:shadow-lg transition-shadow duration-200">
                                                 <div className="flex justify-between items-start mb-3">
