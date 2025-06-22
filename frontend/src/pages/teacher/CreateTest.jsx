@@ -187,14 +187,14 @@ const CreateTest = () => {
                 <div className="mb-8">
                     <button
                         onClick={() => navigate("/teacher")}
-                        className="group inline-flex items-center px-4 py-2 bg-white/80 border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:border-transparent shadow-lg hover:shadow-xl transform mb-6"
+                        className="group inline-flex items-center px-4 py-2 bg-white/80 border-2 border-indigo-200 rounded-full text-sm font-semibold text-indigo-700 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 hover:border-transparent shadow-lg hover:shadow-xl transform mb-6"
                     >
                         <ChevronLeft
                             size={18}
                             className="mr-2 group-hover:-translate-x-1 transition-transform duration-300"
                         />
                         <span>Back to Dashboard</span>
-                        <div className="ml-2 w-2 h-2 bg-indigo-400 rounded-full group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
+                        <div className="ml-2 w-2 h-2 bg-blue-400 rounded-full group-hover:opacity-100 group-hover:animate-pulse transition-all duration-300"></div>
                     </button>
                 </div>
 

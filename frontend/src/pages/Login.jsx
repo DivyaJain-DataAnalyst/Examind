@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -28,8 +28,8 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center py-12 px-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in border border-gray-300">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 gap-30 bg-white ">
+            <div className="max-w-md w-full bg-white rounded-2xl shadow-[0_1px_10px_rgba(0,0,0,0.25)] p-8 space-y-6 animate-fade-in border border-gray-300">
                 <div className="flex flex-col items-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -89,8 +89,13 @@ const Login = () => {
                     </Link>
                 </div>
             </div>
+
             <div>
-                <img src="" alt="" />
+                <img
+                    src="../images/login.png"
+                    alt="login"
+                    className="w-196 h-172"
+                />
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -24,7 +24,14 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 gap-60 bg-white">
+            <div>
+                <img
+                    src="./images/Screenshot 2025-06-22 163759.png"
+                    alt="Register"
+                    className="w-124 h-164 object-cover"
+                />
+            </div>
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in border border-gray-300">
                 <div className="flex flex-col items-center">
                     <svg
@@ -34,17 +41,14 @@ const Register = () => {
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-contact-icon lucide-contact"
-                        className="w-16 h-24 text-blue-800 mb-2"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-square-user w-16 h-24 text-blue-800 mb-2"
                     >
-                        <path d="M16 2v2" />
-                        <path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
-                        <path d="M8 2v2" />
-                        <circle cx="12" cy="11" r="3" />
-                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <rect width="18" height="18" x="3" y="3" rx="2" />
+                        <circle cx="12" cy="10" r="3" />
+                        <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
                     </svg>
                     <h2 className="text-4xl font-extrabold text-gray-900 mb-2">
                         Create Your Account

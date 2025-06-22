@@ -14,10 +14,15 @@ const Navbar = ({ title = "ExamPortal" }) => {
     };
 
     return (
-        <nav className="bg-white mr-5 shadow-[0_1px_10px_rgba(0,0,0,0.25)] fixed top-0 left-0 w-full rounded-b-xl">
-            <div className="max-w-8xl px-12 py-2 mx-auto">
+        <nav className="bg-blue-50 fixed top-0 left-0 w-full border border-gray-300">
+            <div className="max-w-8xl px-12 py-0 mx-auto">
                 <div className="flex justify-between h-16">
-                    <div className="flex items-center ">
+                    <div className="flex gap-4 ">
+                        <img
+                            src="./images/examind.png"
+                            alt="Examind"
+                            className="h-12 w-44"
+                        />
                         <Link
                             to={
                                 currentUser?.role === "teacher"
@@ -26,7 +31,7 @@ const Navbar = ({ title = "ExamPortal" }) => {
                             }
                             className="flex-shrink-0 flex items-center"
                         >
-                            <span className="text-blue-900 text-[38px] font-bold text-shadow-lg">
+                            <span className="text-blue-900 text-[26px] font-bold text-shadow-lg">
                                 {title}
                             </span>
                         </Link>

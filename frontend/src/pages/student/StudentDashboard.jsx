@@ -81,12 +81,12 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="h-fit w-full p-10">
+        <div className="h-fit w-full p-4">
             <Navbar title="Student Dashboard" />
 
             <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="mb-8 pt-8">
-                    <h1 className="text-4xl font-bold text-gray-900">
+                    <h1 className="text-4xl mt-4 font-bold text-gray-900">
                         Welcome,{" "}
                         {currentUser?.name &&
                             currentUser.name.charAt(0).toUpperCase() +

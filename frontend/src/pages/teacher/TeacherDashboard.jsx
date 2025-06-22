@@ -64,10 +64,10 @@ const TeacherDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white p-10">
+        <div className="min-h-screen bg-white p-4 ">
             <Navbar title="Teacher Dashboard" />
 
-            <div className="max-w-8xl mx-auto px-6 py-12">
+            <div className="max-w-8xl mx-auto px-6 py-12 mt-4">
                 {/* Header Section */}
                 <div className="mb-12 bg-red">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
@@ -134,7 +134,7 @@ const TeacherDashboard = () => {
                     <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_1px_5px_rgba(0,0,0,0.25)]">
                         <div className="flex items-center">
                             <div className="p-3 bg-purple-100 rounded-xl">
-                                <Calendar className="w-6 h-6 text-purple-600" />
+                                <Calendar className="w-6 h-6 text-black" />
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-black">

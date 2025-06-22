@@ -103,10 +103,10 @@ const TakeTest = () => {
 
     return (
         <div className="min-h-full bg-white">
-            <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-4 gap-6">
+            <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-4 gap-6 ">
                 {/* Test Content */}
-                <div className="col-span-3">
-                    <div className="bg-blue-600/10 backdrop-blur-sm shadow-[0_2px_20px_rgba(0,0,0,0.25)]  border border-blue-400 rounded-2xl p-8 mb-6">
+                <div className="col-span-3 bg-gray-300/10 ">
+                    <div className="bg-blue-600/10 backdrop-blur-sm shadow-[0_2px_20px_rgba(0,0,0,0.25)]  border border-blue-400 rounded-2xl p-8 mb-6 ">
                         <div className="flex justify-between items-center">
                             <div>
                                 <h1 className="text-3xl font-bold bg-blue-600 bg-clip-text text-transparent mb-2 text-shadow-lg">
@@ -138,7 +138,7 @@ const TakeTest = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-6 bg-gray-300/10 rounded-2xl">
+                    <div className="space-y-6rounded-2xl">
                         {questions.map((q, index) => (
                             <div
                                 key={q.id}
