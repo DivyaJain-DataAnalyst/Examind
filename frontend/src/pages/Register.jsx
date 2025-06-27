@@ -17,22 +17,25 @@ const Register = () => {
         const success = await register(name, email, password, role);
         setIsLoading(false);
         if (success) {
-            navigate("/login"); // ✅ Go to login page after register
+            navigate("/login");
         } else {
             alert("Registration failed");
         }
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center gap-60 bg-white px-4 py-12">
-            <div>
+        <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-white px-4 py-8 md:flex-row md:gap-16 md:px-8 md:py-12">
+            {/* Left - Image */}
+            <div className="hidden md:block">
                 <img
                     src="./images/Screenshot 2025-06-22 163759.png"
                     alt="Register"
-                    className="h-164 w-124 object-cover"
+                    className="h-auto w-80 object-cover md:w-96"
                 />
             </div>
-            <div className="animate-fade-in w-full max-w-md space-y-6 rounded-2xl border border-gray-300 bg-white p-8 shadow-xl">
+
+            {/* Right - Form */}
+            <div className="animate-fade-in w-full max-w-md space-y-6 rounded-2xl border border-gray-300 bg-white p-6 shadow-xl md:p-8">
                 <div className="flex flex-col items-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -44,26 +47,27 @@ const Register = () => {
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="lucide lucide-square-user mb-2 h-24 w-16 text-blue-800"
+                        className="lucide lucide-square-user mb-2 h-16 w-16 text-blue-800"
                     >
                         <rect width="18" height="18" x="3" y="3" rx="2" />
                         <circle cx="12" cy="10" r="3" />
                         <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
                     </svg>
-                    <h2 className="mb-2 text-4xl font-extrabold text-gray-900">
+                    <h2 className="mb-2 text-center text-2xl font-extrabold text-gray-900 md:text-4xl">
                         Create Your Account
                     </h2>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-center text-sm text-gray-500">
                         Join as a Student or Teacher
                     </p>
                 </div>
+
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <input
                         type="text"
                         placeholder="Full Name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         required
                     />
                     <input
@@ -71,7 +75,7 @@ const Register = () => {
                         placeholder="Email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         required
                     />
                     <input
@@ -79,13 +83,13 @@ const Register = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         required
                     />
                     <select
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm transition focus:ring-2 focus:ring-blue-400 focus:outline-none"
                     >
                         <option value="student">Student</option>
                         <option value="teacher">Teacher</option>
@@ -98,6 +102,7 @@ const Register = () => {
                         {isLoading ? "Creating Account..." : "Create Account"}
                     </button>
                 </form>
+
                 <div className="text-center text-sm text-gray-500">
                     Already have an account?{" "}
                     <Link
