@@ -100,7 +100,7 @@ const NavbarPublic = () => {
                         <li key={item.id}>
                             <a
                                 href={item.href}
-                                className="transition-colors duration-200 hover:text-sky-300"
+                                className="hover:text-blue-00 transition-colors duration-200"
                             >
                                 {item.label}
                             </a>
