@@ -11,15 +11,17 @@ import { TeacherDashboard, CreateTest, EditTest } from "./pages/teacher";
 import { StudentDashboard, TakeTest, TestResults } from "./pages/student";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Register, Login, Landing } from "./pages";
+import About from "./pages/About";
 
 function App() {
     return (
         <AuthProvider>
             <Router>
                 {/* //changed */}
-
+                
                 <div className="min-h-screen w-full">
                     <Routes>
+                        <Route path="/about" element={<About/>} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         {/* Teacher Routes */}
