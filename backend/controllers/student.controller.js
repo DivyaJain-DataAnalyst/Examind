@@ -75,44 +75,56 @@ export const getQuestionsForTestController = async (req, res) => {
   }
 };
 
-// ✅ POST /api/student/submit/:testId
+
+
 export const submitTestAttemptController = async (req, res) => {
   try {
     const { testId } = req.params;
     const { answers } = req.body;
     const studentId = req.user._id;
-
+    console.log('Submitting test attempt for student:', studentId, 'for test:', testId, 'with answers:', answers);
     const test = await Test.findById(testId);
     if (!test) return res.status(404).json({ error: 'Test not found' });
 
     let score = 0;
     let totalPoints = 0;
+    const answerArray = [];
 
     for (const question of test.questions) {
       totalPoints += question.points;
-      const userAnswer = answers[question._id.toString()];
-      if (!userAnswer) continue;
+      const questionId = question.id.toString();
+      const userAnswer = answers[questionId];
+      console.log(`Processing question ${questionId} with user answer:`, userAnswer);
+      if (userAnswer === undefined || userAnswer === null) continue;
+
+      let isCorrect = false;
 
       if (question.type === 'multiple-choice') {
-        if (userAnswer === question.correctAnswer) {
-          score += question.points;
-        }
+        isCorrect = userAnswer === question.correctAnswer;
       } else if (question.type === 'numerical') {
         const given = parseFloat(userAnswer);
         const correct = parseFloat(question.correctAnswer);
         const tolerance = question.tolerance || 0;
-        if (!isNaN(given) && Math.abs(given - correct) <= tolerance) {
-          score += question.points;
-        }
+        isCorrect = !isNaN(given) && Math.abs(given - correct) <= tolerance;
       }
+
+      if (isCorrect) score += question.points;
+
+      answerArray.push({
+        questionId,
+        selectedOption:
+          question.type === 'multiple-choice' ? userAnswer : undefined,
+        numericalAnswer:
+          question.type === 'numerical' ? parseFloat(userAnswer) : undefined,
+      });
     }
 
     const attempt = new TestAttempt({
       testId,
       studentId,
-      answers,
+      answers: answerArray,
       score,
-      totalPoints
+      totalPoints,
     });
 
     await attempt.save();
@@ -120,10 +132,71 @@ export const submitTestAttemptController = async (req, res) => {
     res.status(201).json({
       message: 'Test submitted successfully',
       score,
-      totalPoints
+      totalPoints,
     });
   } catch (err) {
     console.error('Error submitting test:', err);
     res.status(500).json({ error: 'Failed to submit test' });
+  }
+};
+
+// Controller: Get Test Results
+export const getTestResultController = async (req, res) => {
+  try {
+    const { testId } = req.params;
+    const studentId = req.user._id;
+
+    const test = await Test.findById(testId);
+    if (!test) return res.status(404).json({ error: 'Test not found' });
+
+    const attempt = await TestAttempt.findOne({ testId, studentId });
+    if (!attempt) return res.status(404).json({ error: 'Attempt not found' });
+
+    const detailedQuestions = test.questions.map((q) => {
+      const userAns = attempt.answers.find(
+        (ans) => ans.questionId === q.id.toString()
+      );
+
+      const userAnswer =
+        q.type === 'multiple-choice'
+          ? userAns?.selectedOption ?? null
+          : typeof userAns?.numericalAnswer === 'number'
+            ? userAns.numericalAnswer
+            : null;
+
+      const isCorrect =
+        q.type === 'multiple-choice'
+          ? q.correctAnswer === userAns?.selectedOption
+          : typeof userAns?.numericalAnswer === 'number' &&
+            Math.abs(parseFloat(q.correctAnswer) - userAns.numericalAnswer) <=
+              (q.tolerance || 0);
+
+      return {
+        questionId: q.id,
+        text: q.text,
+        type: q.type,
+        options: q.options,
+        correctAnswer: q.correctAnswer,
+        userAnswer,
+        isCorrect,
+        points: q.points,
+        imageUrl: q.imageUrl || null,
+      };
+    });
+
+    res.status(200).json({
+      test: {
+        title: test.title,
+        subject: test.subject,
+        description: test.description,
+        duration: test.duration,
+      },
+      score: attempt.score,
+      totalPoints: attempt.totalPoints,
+      detailedQuestions,
+    });
+  } catch (err) {
+    console.error('Error fetching result:', err);
+    res.status(500).json({ error: 'Failed to fetch result' });
   }
 };

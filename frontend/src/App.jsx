@@ -12,7 +12,8 @@ import { StudentDashboard, TakeTest, TestResults } from "./pages/student";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Register, Login, Landing } from "./pages";
 import About from "./pages/About";
-
+import TeacherTestResults from "./pages/teacher/TeacherTestResults";
+import SingleStudentResult from "./pages/teacher/SingleStudentResult";
 function App() {
     return (
         <AuthProvider>
@@ -21,6 +22,9 @@ function App() {
                 
                 <div className="min-h-screen w-full">
                     <Routes>
+                        <Route path="/teacher/results/:testId" element={<TeacherTestResults />} />
+                        <Route path="/teacher/results/:testId/:studentId" element={<SingleStudentResult />} />
+
                         <Route path="/about" element={<About/>} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
