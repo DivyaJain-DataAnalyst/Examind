@@ -268,7 +268,7 @@ const TeacherDashboard = () => {
                                         {/* Actions */}
                                         <div className="px-6 pb-6">
                                             <div className="flex gap-3">
-                                                <Link
+                                                {/* <Link
                                                     to={`/teacher/edit-test/${test._id}`}
                                                     className="flex flex-1 items-center justify-center rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
                                                 >
@@ -277,7 +277,7 @@ const TeacherDashboard = () => {
                                                         className="mr-2"
                                                     />
                                                     Edit
-                                                </Link>
+                                                </Link> */}
                                                 <Link
                                                     to={`/teacher/results/${test._id}`}
                                                     className="flex flex-1 items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"

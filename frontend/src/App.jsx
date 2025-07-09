@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./contexts/AuthContext";
-import { TeacherDashboard, CreateTest, EditTest } from "./pages/teacher";
+import { TeacherDashboard, CreateTest } from "./pages/teacher";
 import { StudentDashboard, TakeTest, TestResults } from "./pages/student";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Register, Login, Landing } from "./pages";
@@ -45,14 +45,14 @@ function App() {
                                 </ProtectedRoute>
                             }
                         />
-                        <Route
+                        {/* <Route
                             path="/teacher/edit-test/:testId"
                             element={
                                 <ProtectedRoute role="teacher">
                                     <EditTest />
                                 </ProtectedRoute>
                             }
-                        />
+                        /> */}
 
                         {/* Student Routes */}
                         <Route

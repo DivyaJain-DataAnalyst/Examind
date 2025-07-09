@@ -19,7 +19,7 @@ const Navbar = ({ title = "ExamPortal" }) => {
                 <div className="flex h-16 justify-between">
                     <div className="flex gap-4">
                         <img
-                            src="./images/examind.png"
+                            src="/images/examind.png"
                             alt="Examind"
                             className="h-12 w-44"
                         />
