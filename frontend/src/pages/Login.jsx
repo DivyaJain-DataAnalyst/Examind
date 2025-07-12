@@ -95,11 +95,11 @@ const Login = () => {
 
             {/* Right - Image */}
             <div className="mt-8 hidden md:mt-0 md:ml-12 md:block">
-                <img
-                    src="../images/login.png"
+                    <img
+                    src="/images/login.png"
                     alt="login"
                     className="h-auto w-80 md:w-96"
-                />
+                    />
             </div>
         </div>
     );

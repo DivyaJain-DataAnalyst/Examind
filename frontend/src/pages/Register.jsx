@@ -28,7 +28,7 @@ const Register = () => {
             {/* Left - Image */}
             <div className="hidden md:block">
                 <img
-                    src="./images/Screenshot 2025-06-22 163759.png"
+                    src="/images/Screenshot 2025-06-22 163759.png"
                     alt="Register"
                     className="h-auto w-80 object-cover md:w-96"
                 />
