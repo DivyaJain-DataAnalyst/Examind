@@ -55,7 +55,7 @@ const NavbarPublic = () => {
 
     return (
         <>
-            <div className="relative top-0 left-0 z-50 flex h-16 w-full items-center justify-between bg-white px-16 py-10 text-black shadow">
+            <div className="relative top-0 left-0 z-50 flex h-14 w-full items-center justify-between bg-white px-16 text-black shadow">
                 <Logo className="text-3xl" />
 
                 <ul className="hidden cursor-pointer text-xl font-semibold lg:flex lg:gap-8">
@@ -88,7 +88,6 @@ const NavbarPublic = () => {
                 </div>
             </div>
 
-            {/* Animated Mobile Menu */}
             {/* Animated Mobile Menu */}
             <div
                 ref={menuRef}
