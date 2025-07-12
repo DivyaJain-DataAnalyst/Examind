@@ -19,6 +19,10 @@
     {
       "src": "/(.*)",
       "dest": "frontend/$1"
+    },
+    {
+      "src": "/(.*)",           
+      "dest": "frontend/index.html" 
     }
   ],
   "installCommand": "npm install --prefix frontend && npm install --prefix backend"
