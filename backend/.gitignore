@@ -1,0 +1,7 @@
+# Root .gitignore
+# Root .gitignore
+.env
+.vercel/
+node_modules/ # This should ideally be at the root
+frontend/node_modules/
+backend/node_modules/
