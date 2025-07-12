@@ -200,7 +200,7 @@ const TeacherDashboard = () => {
                                 {tests.map((test) => (
                                     <div
                                         key={test._id}
-                                        className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-[0_1px_10px_rgba(0,0,0,0.25)] transition-all duration-200 hover:border-gray-300 hover:shadow-xl"
+                                        className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xs transition-all duration-200 hover:border-gray-300 hover:shadow-xl"
                                     >
                                         {/* Header */}
                                         <div className="p-6 pb-4">
@@ -268,16 +268,6 @@ const TeacherDashboard = () => {
                                         {/* Actions */}
                                         <div className="px-6 pb-6">
                                             <div className="flex gap-3">
-                                                {/* <Link
-                                                    to={`/teacher/edit-test/${test._id}`}
-                                                    className="flex flex-1 items-center justify-center rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
-                                                >
-                                                    <Edit
-                                                        size={16}
-                                                        className="mr-2"
-                                                    />
-                                                    Edit
-                                                </Link> */}
                                                 <Link
                                                     to={`/teacher/results/${test._id}`}
                                                     className="flex flex-1 items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"

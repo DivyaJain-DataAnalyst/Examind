@@ -6,7 +6,7 @@ const Landing = () => {
         <div className="">
             <NavbarPublic />
             {/* <> */}
-            <div className="relative isolate bg-white px-6 py-8 lg:px-8">
+            <div className="relative isolate mt-8 bg-white px-6 lg:px-8">
                 {/* Top Decorative Blur Background */}
                 <div
                     className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
