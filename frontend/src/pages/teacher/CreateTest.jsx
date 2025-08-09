@@ -808,18 +808,46 @@ const CreateTest = () => {
         }
     };
 
-    const handleImageUpload = (questionIndex, e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const fakeImageUrl = URL.createObjectURL(file);
+    // const handleImageUpload = (questionIndex, e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const fakeImageUrl = URL.createObjectURL(file);
 
+    //         const updatedQuestions = [...questions];
+    //         updatedQuestions[questionIndex].imageUrl = fakeImageUrl;
+    //         setQuestions(updatedQuestions);
+
+    //         toast.success("Image uploaded successfully");
+    //     }
+    // };
+const handleImageUpload = async (index, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+        const res = await axios.post(
+            "/api/upload", // your backend upload route
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+
+        if (res.data.imageUrl) {
             const updatedQuestions = [...questions];
-            updatedQuestions[questionIndex].imageUrl = fakeImageUrl;
+            updatedQuestions[index].imageUrl = res.data.imageUrl; // Cloudinary URL
             setQuestions(updatedQuestions);
-
-            toast.success("Image uploaded successfully");
         }
-    };
+    } catch (error) {
+        console.error("Image upload failed", error);
+    }
+};
+
 
     const handleTypeChange = (questionIndex, newType) => {
         const updatedQuestions = [...questions];
@@ -957,7 +985,45 @@ const CreateTest = () => {
                                                 </div>
                                                 <div><input type="number" value={question.points} onChange={(e) => handleQuestionChange(index, "points", parseInt(e.target.value, 10))} min={1} className="block w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:ring-0" /></div>
                                             </div>
-
+                                       <div>
+                                           <label className="mb-3 block text-sm font-semibold text-gray-700">
+                                               Image (Optional)
+                                           </label>
+                                             <div className="flex items-center space-x-4">
+                                                 <label className="inline-flex transform cursor-pointer items-center rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-md transition-all duration-200 hover:scale-105 hover:from-blue-600 hover:to-indigo-700">
+                                                    <Image
+                                                        size={18}
+                                                        className="mr-2"
+                                                    />
+                                                    Upload Image
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        onChange={(e) =>
+                                                            handleImageUpload(
+                                                                index,
+                                                                e,
+                                                            )
+                                                        }
+                                                    />
+                                                </label>
+                                                {question.imageUrl && (
+                                                    <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+                                                        ✓ Image uploaded
+                                                    </span>
+                                                )}
+                                            </div>
+                                            {question.imageUrl && (
+                                                <div className="mt-4 rounded-xl border-2 border-gray-200 bg-white/60 p-4">
+                                                    <img
+                                                        src={question.imageUrl}
+                                                        alt="Question"
+                                                        className="mx-auto h-40 rounded-lg object-contain shadow-md"
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
                                             {question.type === QUESTION_TYPES.MULTIPLE_CHOICE && (
                                                 <div className="border-t border-gray-200 pt-6">
                                                     <div className="space-y-4">

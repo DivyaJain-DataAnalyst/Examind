@@ -4,7 +4,7 @@ import connect from './db/db.js';
 import userRoutes from './routes/user.routes.js';
 import teacherRoutes from './routes/teacher.route.js';
 import studentRoutes from './routes/student.routes.js';
-
+import uploadRoutes from "./routes/upload.js";
 import resultRoutes from "./routes/result.routes.js";
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -25,6 +25,8 @@ app.use('/api/teacher', teacherRoutes);
 app.use('/api/student', studentRoutes); 
 
 app.use("/api/results", resultRoutes);
+// Register upload route
+app.use("/api/upload", uploadRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

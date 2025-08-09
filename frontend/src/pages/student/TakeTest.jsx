@@ -392,55 +392,90 @@ const TakeTest = () => {
 
                         <div className="space-y-6">
                             {questions.map((q, index) => {
-                                const qid = q.id || q._id.toString();
-                                return (
-                                    <div key={qid} ref={(el) => (questionRefs.current[qid] = el)} onDoubleClick={() => handleQuestionDoubleClick(qid)} className="rounded-xl border bg-white p-6 shadow-sm">
-                                        <div className="mb-6 flex items-start space-x-4">
-                                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-blue-500">
-                                                <span className="text-sm font-bold text-white">{index + 1}</span>
+                                    const qid = q.id || q._id.toString();
+                                    return (
+                                        <div
+                                            key={qid}
+                                            ref={(el) => (questionRefs.current[qid] = el)}
+                                            onDoubleClick={() => handleQuestionDoubleClick(qid)}
+                                            className="rounded-xl border bg-white p-6 shadow-sm"
+                                        >
+                                            {/* Question Header */}
+                                            <div className="mb-6 flex items-start space-x-4">
+                                                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-blue-500">
+                                                    <span className="text-sm font-bold text-white">{index + 1}</span>
+                                                </div>
+                                                <div className="flex-1 text-xl leading-relaxed font-semibold text-gray-800">
+                                                    <MathJax dynamic>{q.text}</MathJax>
+                                                </div>
                                             </div>
-                                            <div className="flex-1 text-xl leading-relaxed font-semibold text-gray-800">
-                                                <MathJax dynamic>{q.text}</MathJax>
-                                            </div>
+
+                                            {/* Question Image */}
+                                            {q.imageUrl && (
+                                                <div className="ml-14 mb-4">
+                                                    <img
+                                                        src={q.imageUrl}
+                                                        alt={`Question ${index + 1}`}
+                                                        className="w-80 rounded-lg border shadow-sm"
+                                                    />
+                                                </div>
+                                            )}
+
+                                            {/* Multiple Choice Options */}
+                                            {q.type === "multiple-choice" && (
+                                                <div className="ml-14 space-y-3">
+                                                    {q.options.map((opt, idx) => (
+                                                        <label
+                                                            key={idx}
+                                                            className={`flex cursor-pointer items-center space-x-4 rounded-xl border-2 p-4 transition-all duration-300 ${
+                                                                answers[qid] === opt.id
+                                                                    ? "border-blue-400 bg-blue-50 shadow-md"
+                                                                    : "hover:bg-blue-50 border-gray-200 bg-gray-50 hover:border-blue-200"
+                                                            }`}
+                                                        >
+                                                            <input
+                                                                type="radio"
+                                                                name={qid}
+                                                                value={opt.id}
+                                                                checked={answers[qid] === opt.id}
+                                                                onChange={() => handleChange(qid, opt.id)}
+                                                                className="sr-only"
+                                                            />
+                                                            <div
+                                                                className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-all duration-200 ${
+                                                                    answers[qid] === opt.id
+                                                                        ? "border-blue-500 bg-blue-500"
+                                                                        : "border-gray-300"
+                                                                }`}
+                                                            >
+                                                                {answers[qid] === opt.id && (
+                                                                    <div className="h-2 w-2 rounded-full bg-white"></div>
+                                                                )}
+                                                            </div>
+                                                            <span className="flex-1 font-medium text-gray-700">
+                                                                <MathJax inline dynamic>{opt.text}</MathJax>
+                                                            </span>
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {/* Numerical Input */}
+                                            {q.type === "numerical" && (
+                                                <div className="ml-14">
+                                                    <input
+                                                        type="number"
+                                                        className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-lg transition-all duration-300 outline-none focus:border-blue-500 focus:ring-0"
+                                                        placeholder="Enter your answer..."
+                                                        value={answers[qid] || ""}
+                                                        onChange={(e) => handleChange(qid, e.target.value)}
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
+                                    );
+                                })}
 
-                                        {q.type === "multiple-choice" && (
-                                            <div className="ml-14 space-y-3">
-                                                {q.options.map((opt, idx) => (
-                                                    <label key={idx} className={`flex cursor-pointer items-center space-x-4 rounded-xl border-2 p-4 transition-all duration-300 ${answers[qid] === opt.id ? "border-blue-400 bg-blue-50 shadow-md" : "hover:bg-blue-50 border-gray-200 bg-gray-50 hover:border-blue-200"}`}>
-                                                        <input
-                                                            type="radio"
-                                                            name={qid}
-                                                            value={opt.id}
-                                                            checked={answers[qid] === opt.id}
-                                                            onChange={() => handleChange(qid, opt.id)}
-                                                            className="sr-only"
-                                                        />
-                                                        <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-all duration-200 ${answers[qid] === opt.id ? "border-blue-500 bg-blue-500" : "border-gray-300"}`}>
-                                                            {answers[qid] === opt.id && <div className="h-2 w-2 rounded-full bg-white"></div>}
-                                                        </div>
-                                                        <span className="flex-1 font-medium text-gray-700">
-                                                            <MathJax inline dynamic>{opt.text}</MathJax>
-                                                        </span>
-                                                    </label>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        {q.type === "numerical" && (
-                                            <div className="ml-14">
-                                                <input
-                                                    type="number"
-                                                    className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-lg transition-all duration-300 outline-none focus:border-blue-500 focus:ring-0"
-                                                    placeholder="Enter your answer..."
-                                                    value={answers[qid] || ""}
-                                                    onChange={(e) => handleChange(qid, e.target.value)}
-                                                />
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
                         </div>
 
                         <div className="mt-8 text-center">
