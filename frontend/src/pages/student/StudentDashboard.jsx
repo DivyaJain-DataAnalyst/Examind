@@ -41,6 +41,9 @@ const StudentDashboard = () => {
             minute: "2-digit",
         });
     };
+const isPrevious = (test) => {
+    return new Date(test.endTime) < new Date();
+};
 
     const getStatusBadge = (test) => {
         const now = new Date();
@@ -234,6 +237,64 @@ const StudentDashboard = () => {
                                 </div>
                             )}
                         </div>
+                        {/* Previous Tests */}
+<div className="mb-8 rounded-lg bg-white p-6 shadow-[0_1px_10px_rgba(0,0,0,0.25)]">
+    <h2 className="mb-4 text-2xl font-medium text-gray-900">
+        Previous Tests
+    </h2>
+    {tests.filter(isPrevious).length === 0 ? (
+        <div className="rounded-lg border-2 border-dashed border-gray-300 py-8 text-center">
+            <p className="text-gray-500">
+                No previous tests.
+            </p>
+        </div>
+    ) : (
+        <div className="grid grid-cols-1 gap-6 border-t border-gray-400 pt-4 md:grid-cols-2 lg:grid-cols-3">
+            {tests.filter(isPrevious).map((test) => (
+                <div
+                    key={test._id}
+                    className="rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-lg"
+                >
+                    <div className="p-5">
+                        <div className="mb-3 flex items-start justify-between">
+                            <h3 className="text-xl font-semibold text-gray-900">
+                                {test.title}
+                            </h3>
+                            {getStatusBadge(test)}
+                        </div>
+                        <p className="mb-3 text-sm text-gray-600">
+                            {test.subject}
+                        </p>
+                        <div className="mb-2 flex items-center text-sm text-gray-500">
+                            <Clock size={16} className="mr-1" />
+                            <span>{test.duration} minutes</span>
+                        </div>
+                        <div className="mb-4 flex items-center text-sm text-gray-500">
+                            <Calendar size={16} className="mr-1" />
+                            <span>Ended: {formatDate(test.endTime)}</span>
+                        </div>
+
+                        <div className="border-t border-gray-100 pt-2">
+                            {hasAttempted(test._id) ? (
+                                <Link
+                                    to={`/student/results/${test._id}`}
+                                    className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                                >
+                                    View Results
+                                </Link>
+                            ) : (
+                                <span className="inline-flex w-full items-center justify-center rounded-md bg-gray-400 px-4 py-2 text-sm font-medium text-white">
+                                    Not Attempted
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )}
+</div>
+
                     </>
                 )}
             </div>

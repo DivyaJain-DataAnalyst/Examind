@@ -743,7 +743,7 @@ const CreateTest = () => {
                 { id: "d", text: "" },
             ],
             correctAnswer: "",
-            points: 5,
+            points: 4,
             imageUrl: null,
         },
     ]);
@@ -792,7 +792,7 @@ const CreateTest = () => {
                 { id: "d", text: "" },
             ],
             correctAnswer: "",
-            points: 5,
+            points: 4,
             imageUrl: null,
         };
 
