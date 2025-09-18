@@ -91,11 +91,11 @@ Whether you are **contributing code, writing documentation, attending discussion
 
 ## 📜 Attribution  
 
-This Code of Conduct is adapted from the [Contributor Covenant (v3.000)](https://www.contributor-covenant.org/version/3/0/code_of_conduct/), with modifications tailored for **Examind under the GirlScript Summer of Code (GSSoC’25)**.  
+This Code of Conduct is adapted from the [Contributor Covenant (v3.0)](https://www.contributor-covenant.org/version/3/0/code_of_conduct/), with modifications tailored for **Examind under the GirlScript Summer of Code (GSSoC’25)**.  
 
-📌 Original work licensed under [Creative Commons Attribution 4.0 International 4.0](https://creativecommons.org/licenses/by/4.0/)  
+📌 Original work licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)  
 
-Enforcement guidelines inspired by [Mozilla’s code of conduct enforcement ladder](https://github.com/mozilla/diversity).  
+Enforcement guidelines inspired by [Mozilla’s Code of Conduct enforcement ladder](https://github.com/mozilla/diversity).  
 
 We thank every contributor, maintainer, and member for **making Examind a safe, inclusive, and inspiring space**. ✨💡  
 
